@@ -32,3 +32,6 @@ dependencies {
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+bootRun {
+	sourceResources(sourceSets.main)
+}
