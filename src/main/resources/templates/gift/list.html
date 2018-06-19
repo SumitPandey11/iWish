@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<h1 th:text="${title}">Default Title</h1>
+
+<nav th:replace="fragments :: navigation"></nav>
+
+<p th:unless="${gifts} and ${gifts.size()}">No wish list :(</p>
+
+
+<table class="table">
+
+    <tr>
+        <th>Name</th>
+        <th>Occasion</th>
+        <th>Price</th>
+        <th>Date</th>
+    </tr>
+
+    <tr th:each="gift : ${gifts}">
+        <td th:text="${gift.name}"></td>
+        <td th:text="${gift.occasion}"></td>
+        <td th:text="${gift.price}"></td>
+        <td th:text="${gift.date}"></td>
+    </tr>
+
+</table>
+
+<nav th:fragment="navigation">
+    <a href="/gift/add">Add</a> |
+</nav>
+
+</body>
+</html>

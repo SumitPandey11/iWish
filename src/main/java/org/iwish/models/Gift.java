@@ -1,13 +1,9 @@
 package org.iwish.models;
 
-import org.hibernate.validator.constraints.Currency;
-
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.Optional;
 
 @Entity
 public class Gift {
@@ -28,6 +24,9 @@ public class Gift {
     @NotNull
     @Basic
     private Date date;
+
+    @ManyToOne
+    private User user;
 
     public Gift(){
 
@@ -67,5 +66,13 @@ public class Gift {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -9,16 +9,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.jws.soap.SOAPBinding;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("gift")
 public class GiftController {
+
     @Autowired
     private GiftDao giftDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @RequestMapping(value="add",method = RequestMethod.GET)
     public String displayCreateNewGift(Model model){
@@ -34,8 +42,27 @@ public class GiftController {
             return "gift/add";
         }
 
-        giftDao.save(gift);
+
+        Integer i = new Integer(1);
+        Optional<User> u = userDao.findById(i);
+        User user;
+        if(u.isPresent()){
+            user = u.get();
+            gift.setUser(user);
+            giftDao.save(gift);
+        }
+        else{
+            // TODO: Check if User not exists.
+        }
         model.addAttribute("title", "Successfully Created :  " + gift.getName());
         return "gift/index";
+    }
+
+    @RequestMapping(value = "list/{userId}", method = RequestMethod.GET)
+    public String listWishListByUserId(Model model, @PathVariable int userId){
+        List<Gift> gifts = giftDao.findByUser_Id(userId);
+        model.addAttribute("gifts", gifts);
+        model.addAttribute("title", "Your wish list " );
+        return "gift/list";
     }
 }

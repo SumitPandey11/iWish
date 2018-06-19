@@ -1,11 +1,11 @@
 package org.iwish.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is User Entity Class, This call will hold the username, email and password.
@@ -28,6 +28,10 @@ public class User {
 
     @Email
     private String email;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Gift> gifts = new ArrayList<>();
 
     public User(){
 
