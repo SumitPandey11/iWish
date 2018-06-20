@@ -3,6 +3,7 @@ package org.iwish.controllers;
 import org.iwish.models.User;
 import org.iwish.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,18 +22,21 @@ public class UserContorller {
     private UserDao userDao;
 
     @RequestMapping(value="")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public String index(Model model){
         model.addAttribute("title","Welcome User");
         return "user/index";
     }
 
     @RequestMapping(value="add",method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String displayCreateNewUser(Model model){
         model.addAttribute("title","Create New User");
         model.addAttribute(new User());
         return "user/add";
     }
     @RequestMapping(value="add",method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String processCreateNewUser(Model model, @ModelAttribute @Valid User user, Errors errors){
 
         if(errors.hasErrors()){

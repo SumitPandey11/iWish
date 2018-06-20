@@ -1,24 +1,33 @@
 package org.iwish.security;
 
 import org.iwish.models.User;
+import org.iwish.models.UserGroup;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 public class IWishUserPrincipal implements UserDetails {
     private User user;
+    private List<UserGroup> userGroups;
 
-    public IWishUserPrincipal(User user){
+    public IWishUserPrincipal(User user, List<UserGroup> userGroups){
         super();
         this.user = user;
+        this.userGroups = userGroups;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        if(userGroups == null){
+            return  Collections.emptySet();
+        }
+        Set<SimpleGrantedAuthority> grantedAuthorits = new HashSet<>();
+        userGroups.forEach( group -> {
+            grantedAuthorits.add(new SimpleGrantedAuthority(group.getAuthgroup()));
+        });
+        return grantedAuthorits;
     }
 
     @Override

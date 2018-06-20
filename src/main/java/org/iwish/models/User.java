@@ -33,6 +33,10 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Gift> gifts = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<UserGroup> userGroups = new ArrayList<>();
+
     public User(){
 
     }

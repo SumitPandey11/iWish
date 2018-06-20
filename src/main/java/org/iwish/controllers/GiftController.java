@@ -5,6 +5,7 @@ import org.iwish.models.User;
 import org.iwish.models.data.GiftDao;
 import org.iwish.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -28,6 +29,7 @@ public class GiftController {
     @Autowired
     private UserDao userDao;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="add",method = RequestMethod.GET)
     public String displayCreateNewGift(Model model){
         model.addAttribute("title","Create New Gift");
@@ -35,6 +37,7 @@ public class GiftController {
         return "gift/add";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="add",method = RequestMethod.POST)
     public String processCreateNewUser(Model model, @ModelAttribute @Valid Gift gift, Errors errors){
 
@@ -58,6 +61,7 @@ public class GiftController {
         return "gift/index";
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "list/{userId}", method = RequestMethod.GET)
     public String listWishListByUserId(Model model, @PathVariable int userId){
         List<Gift> gifts = giftDao.findByUser_Id(userId);
