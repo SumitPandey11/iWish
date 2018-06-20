@@ -3,6 +3,7 @@ package org.iwish.controllers;
 import org.iwish.models.User;
 import org.iwish.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -37,6 +38,10 @@ public class UserContorller {
         if(errors.hasErrors()){
             return "user/add";
         }
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(11);
+        String encryptedPassowrd = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassowrd);
 
        userDao.save(user);
        model.addAttribute("title", user.getName());
