@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,21 +23,39 @@ public class UserContorller {
     private UserDao userDao;
 
     @RequestMapping(value="")
-    @PreAuthorize("hasRole('ROLE_USER')")
     public String index(Model model){
         model.addAttribute("title","Welcome User");
         return "user/index";
     }
 
+    @GetMapping(value="login")
+    public String login(Model model){
+        return "user/login";
+    }
+
+    @RequestMapping(value="login",method = RequestMethod.POST)
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String validateLogin(Model model){
+        model.addAttribute("title","LOGIN SUCCESS Create New User");
+
+        return "user/index";
+    }
+
+    @GetMapping(value="logout-success")
+    public String logout(Model model){
+        return "user/logout";
+    }
+
     @RequestMapping(value="add",method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String displayCreateNewUser(Model model){
         model.addAttribute("title","Create New User");
         model.addAttribute(new User());
         return "user/add";
     }
+
     @RequestMapping(value="add",method = RequestMethod.POST)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String processCreateNewUser(Model model, @ModelAttribute @Valid User user, Errors errors){
 
         if(errors.hasErrors()){

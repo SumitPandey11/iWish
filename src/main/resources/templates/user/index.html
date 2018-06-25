@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}"lang="en">
 <head th:replace="fragments :: head"></head>
 
 <body class="container">
+<div layout:fragment="content">
+<header th:replace="fragments :: header"></header>
 <h1 th:text="${title}">Default Title</h1>
 
 <nav th:replace="fragments :: navigation"></nav>
 <div>
     <h3 th:text="${'Welcome ' + title}">Welcome</h3>
 </div>
-
+</div>
 </body>
 </html>

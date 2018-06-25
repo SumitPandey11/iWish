@@ -29,7 +29,7 @@ public class GiftController {
     @Autowired
     private UserDao userDao;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="add",method = RequestMethod.GET)
     public String displayCreateNewGift(Model model){
         model.addAttribute("title","Create New Gift");
@@ -37,7 +37,7 @@ public class GiftController {
         return "gift/add";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="add",method = RequestMethod.POST)
     public String processCreateNewUser(Model model, @ModelAttribute @Valid Gift gift, Errors errors){
 
@@ -61,7 +61,7 @@ public class GiftController {
         return "gift/index";
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    //@PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "list/{userId}", method = RequestMethod.GET)
     public String listWishListByUserId(Model model, @PathVariable int userId){
         List<Gift> gifts = giftDao.findByUser_Id(userId);

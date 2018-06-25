@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,29 +61,30 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
      * Authenticate Any other request
      *
      */
-    @Override
+   /* @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/","/user","/user/add","/css/*","/js/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic();
-    }
-
-    /**
-     * Overriding the base method and making it poublic.
-     * The UserDetailsService interface is used to retrieve user-related data.
-     * It has one method named loadUserByUsername() which finds a user entity based on the username and
-     * can be overridden to customize the process of finding the user.
-     * @return
-     */
-/*    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        List<UserDetails> users = new ArrayList<>();
-        users.add(User.withDefaultPasswordEncoder().username("sumit").password("password").roles("USER","ADMIN").build());
-        users.add(User.withDefaultPasswordEncoder().username("dev").password("password").roles("USER").build());
-        return new InMemoryUserDetailsManager(users);
+                .formLogin()
+                .loginPage("/user/login").permitAll()
+                .and()
+                .logout().invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                .logoutSuccessUrl("/user/logout-success").permitAll();
     }*/
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/","/user","/user/add","/css/*","/js/*").permitAll()
+                .anyRequest().permitAll();
+
+    }
 }
