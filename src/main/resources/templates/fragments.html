@@ -10,10 +10,14 @@
 </head>
 <body>
 
-<nav th:fragment="navigation">
+<nav th:fragment="login-navigation">
     <a href="/user">Home</a> |
-    <a href="/user/login">Login</a> |
     <a href="/gift/add">Create Wish</a> |
+    <a href="/gift/list">My WishList</a>
+</nav>
+
+<nav th:fragment="no-login-navigation">
+    <a href="">Home</a> |
     <a href="/user/add">Register</a>
 </nav>
 

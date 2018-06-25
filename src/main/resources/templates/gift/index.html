@@ -3,12 +3,35 @@
 <head th:replace="fragments :: head"></head>
 
 <body class="container">
+<nav th:replace="fragments :: login-navigation"></nav>
 <h1 th:text="${title}">Default Title</h1>
 
-<nav th:replace="fragments :: navigation"></nav>
+
 <div>
     <h3 th:text="${title}">Successfully created your wish List</h3>
 </div>
+
+<table class="table">
+
+    <tr>
+        <th>Name</th>
+        <th>Occasion</th>
+        <th>Price</th>
+        <th>Date</th>
+    </tr>
+
+    <tr >
+        <td th:text="${gift.name}"></td>
+        <td th:text="${gift.occasion}"></td>
+        <td th:text="${gift.price}"></td>
+        <td th:text="${gift.date}"></td>
+    </tr>
+
+</table>
+
+<nav th:fragment="navigation">
+    <a href="/gift/add">Create a Wish</a>
+</nav>
 
 </body>
 </html>

@@ -6,7 +6,7 @@
 
 <h1 th:text="${title}">Default Title</h1>
 
-<nav th:replace="fragments :: navigation"></nav>
+<nav th:replace="fragments :: login-navigation"></nav>
 
 <p th:unless="${gifts} and ${gifts.size()}">No wish list :(</p>
 
@@ -30,7 +30,7 @@
 </table>
 
 <nav th:fragment="navigation">
-    <a href="/gift/add">Add</a> |
+    <a href="/gift/add">Create a Wish</a>
 </nav>
 
 </body>
