@@ -29,13 +29,17 @@ public class User {
     @Email
     private String email;
 
-    @OneToMany
+    @OneToMany (cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<Gift> gifts = new ArrayList<>();
 
     @OneToMany
     @JoinColumn(name = "user_id")
     private List<UserGroup> userGroups = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Contribution> contributions = new ArrayList<>();
 
     public User(){
 

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<h1 th:text="${title}">Wish List Seeker</h1>
+
+<nav th:replace="fragments :: login-navigation"></nav>
+
+<div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="user : ${giftSeekers}">
+            <td><a th:href="@{'/gift/list/'+ ${user.id}}" th:text="${user.name}"></a></td>
+            <td th:text="${user.email}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

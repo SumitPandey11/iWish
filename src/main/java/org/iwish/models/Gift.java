@@ -3,6 +3,8 @@ package org.iwish.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -27,6 +29,12 @@ public class Gift {
 
     @ManyToOne
     private User user;
+
+
+    @OneToMany
+    @JoinColumn(name = "gift_id")
+    private List<Contribution> contributions = new ArrayList<>();
+
 
     public Gift(){
 

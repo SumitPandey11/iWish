@@ -8,7 +8,7 @@
 
 <nav th:replace="fragments :: login-navigation"></nav>
 
-<p th:unless="${gifts} and ${gifts.size()}">No wish list :(</p>
+<p th:unless="${giftAndContibutionAmountList} and ${giftAndContibutionAmountList.size()}">No wish list :(</p>
 
 
 <table class="table">
@@ -17,14 +17,18 @@
         <th>Name</th>
         <th>Occasion</th>
         <th>Price</th>
-        <th>Date</th>
+        <th>Contribution</th>
+        <th>Contribute</th>
+        <th>Target Date</th>
     </tr>
 
-    <tr th:each="gift : ${gifts}">
-        <td th:text="${gift.name}"></td>
-        <td th:text="${gift.occasion}"></td>
-        <td th:text="${gift.price}"></td>
-        <td th:text="${gift.date}"></td>
+    <tr th:each="giftAndContibutionAmount : ${giftAndContibutionAmountList}">
+        <td th:text="${giftAndContibutionAmount.gift.name}"></td>
+        <td th:text="${giftAndContibutionAmount.gift.occasion}"></td>
+        <td th:text="${giftAndContibutionAmount.gift.price}"></td>
+        <td th:text="${giftAndContibutionAmount.totalAmountContributed}"></td>
+        <td><a class="btn btn-info" th:href="@{'/gift/contribute/'+ ${giftAndContibutionAmount.gift.id}}" th:text="Contribute"></a></td>
+        <td th:text="${giftAndContibutionAmount.gift.date}"></td>
     </tr>
 
 </table>
