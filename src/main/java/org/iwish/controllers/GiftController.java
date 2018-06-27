@@ -46,7 +46,7 @@ public class GiftController {
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="add",method = RequestMethod.POST)
-    public String processCreateNewUser(@SessionAttribute("user") User user, Model model, @ModelAttribute @Valid Gift gift, Errors errors){
+    public String processCreateGift(@SessionAttribute("user") User user, Model model, @ModelAttribute @Valid Gift gift, Errors errors){
 
         if(errors.hasErrors()){
             return "gift/add";
@@ -67,12 +67,46 @@ public class GiftController {
         return "gift/index";
     }
 
+    @RequestMapping(value="edit/{giftId}/userId/{userId}",method = RequestMethod.GET)
+    public String editGift(@PathVariable int giftId, @PathVariable int userId, Model model){
+
+        Optional<Gift> gift = giftDao.findById(giftId);
+
+        model.addAttribute("title","Edit your Gift");
+        model.addAttribute("gift",gift.get());
+        return "gift/edit";
+   }
+
+    @RequestMapping(value="update",method = RequestMethod.POST)
+    public String updateGift(Model model,@ModelAttribute("gift") @Valid Gift gift, Errors errors){
+
+        if(errors.hasErrors()){
+            return "gift/edit";
+        }
+
+        /*
+        If the gift object 'id' is null or 0 then it will create new Gigt object in DB.
+        If Goft onject has a Id value then it will update the Gift whose primaryKey is equal to id
+        */
+        giftDao.save(gift);
+        model.addAttribute("title", "Successfully updated :  " + gift.getName());
+        return "gift/index";
+    }
+
+    @RequestMapping(value="delete/{giftId}/userId/{userId}",method = RequestMethod.GET)
+    public String deleteGift(@PathVariable int giftId, @PathVariable int userId){
+
+        giftDao.deleteById(giftId);
+
+        return "redirect:/gift/list/"+userId;
+    }
+
     /*
        Display the Wishlist of user, get the UserId from Pathvariable
     */
     //@PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "list/{userId}", method = RequestMethod.GET)
-    public String listWishListByUserId( Model model, @PathVariable int userId){
+    public String listWishListByUserId( @SessionAttribute("user") User currentUserInSession, Model model, @PathVariable int userId){
         List<Gift> gifts = giftDao.findByUser_Id(userId);
         String username = userDao.findById(userId).get().getName();
 
@@ -89,7 +123,17 @@ public class GiftController {
             giftAndContibutionAmountList.add(new GiftAndContibutionAmount(amount,gift));
         }
 
+        /*
+        Use can see the Delete / Edit option for their own Gift list.
+        The Delete / Edit option will not available for othe usres Gift List
+         */
+        boolean currentUserFlag = false;
+        if(currentUserInSession.getId() == userId){
+            currentUserFlag = true;
+        }
         model.addAttribute("giftAndContibutionAmountList", giftAndContibutionAmountList);
+        model.addAttribute("wishListUserId", userId );
+        model.addAttribute("currentUserFlag", currentUserFlag );
         model.addAttribute("title", StringUtils.capitalize(username) + "'s wish list " );
         return "gift/list";
     }

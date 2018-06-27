@@ -20,6 +20,8 @@
         <th>Contribution</th>
         <th>Contribute</th>
         <th>Target Date</th>
+        <th th:unless="${currentUserFlag} == false">Edit</th>
+        <th th:unless="${currentUserFlag} == false">Delete</th>
     </tr>
 
     <tr th:each="giftAndContibutionAmount : ${giftAndContibutionAmountList}">
@@ -29,13 +31,11 @@
         <td th:text="${giftAndContibutionAmount.totalAmountContributed}"></td>
         <td><a class="btn btn-info" th:href="@{'/gift/contribute/'+ ${giftAndContibutionAmount.gift.id}}" th:text="Contribute"></a></td>
         <td th:text="${giftAndContibutionAmount.gift.date}"></td>
+        <td th:unless="${currentUserFlag} == false"><a class="btn btn-info" th:href="@{'/gift/edit/'+ ${giftAndContibutionAmount.gift.id} +'/userId/'+${wishListUserId}}" th:text="Edit"></a></td>
+        <td th:unless="${currentUserFlag} == false"><a class="btn btn-info" th:href="@{'/gift/delete/'+ ${giftAndContibutionAmount.gift.id} +'/userId/'+${wishListUserId}}" th:text="Delete"></a></td>
     </tr>
 
 </table>
-
-<nav th:fragment="navigation">
-    <a href="/gift/add">Create a Wish</a>
-</nav>
 
 </body>
 </html>

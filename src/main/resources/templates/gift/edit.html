@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<h1 th:text="${title}">Default Title</h1>
+
+<nav th:replace="fragments :: login-navigation"></nav>
+
+<form method="post" style="max-width:600px;" th:object="${gift}" action="/gift/update">
+    <div class="form-group">
+        <label th:for="name">Gift Name</label>
+        <input class="form-control" th:field="*{name}" />
+        <span th:errors="*{name}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="occasion">Occasion</label>
+        <input class="form-control" th:field="*{occasion}" />
+        <span th:errors="*{occasion}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="price">Price</label>
+        <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input type="number" value="1000" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency"  th:field="*{price}" />
+        </div>
+        <span th:errors="*{price}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="date">Date</label>
+        <input type="date" class=" form-control form_datetime" th:field="*{date}" />
+        <span th:errors="*{date}" class="error"></span>
+    </div>
+
+    <!--kept the 'id ' as a hidden because if we dont kept it here then Gift object will have null 'id' and it will
+    be considered as new object Gift Entity onject because 'id' is null. Then save() will create a new Gift record
+    in DB instead of updating the current Gift object.
+    -->
+
+    <input type="hidden" name="id" th:field="*{id}" />
+    <!--kept the 'user' as a hidden because if we dont kept it here then Gift object will have null 'user', But we want to keep the same 'user'
+    because this is Edit of exisitng 'Gift' entity
+    -->
+    <input type="hidden" name="user" th:field="*{user}" />
+
+    <input type="submit" class="btn btn-info" value="Update" />
+</form>
+
+</body>
+</html>
