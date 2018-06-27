@@ -86,7 +86,7 @@ public class GiftController {
 
         /*
         If the gift object 'id' is null or 0 then it will create new Gigt object in DB.
-        If Goft onject has a Id value then it will update the Gift whose primaryKey is equal to id
+        If Gift onject has a Id value then it will update the Gift whose primaryKey is equal to id
         */
         giftDao.save(gift);
         model.addAttribute("title", "Successfully updated :  " + gift.getName());
