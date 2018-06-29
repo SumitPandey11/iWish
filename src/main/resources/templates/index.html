@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<nav th:replace="fragments :: no-login-navigation"></nav>
+<head th:replace="fragments :: head"></head>
+
+<body>
+<h1>Welcome to iWish</h1>
+
+
+
+<div class="container">
+    <h2>Best Sellers</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="thumbnail">
+
+                    <img src="/images/book1.jpg" alt="Lights" style="width:100%" id="bookimg">
+                    <div class="caption" id="light-book-details"></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="thumbnail">
+                    <img src="/images/book2.jpg" alt="Nature" style="width:100%">
+                    <div class="caption"></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="thumbnail">
+                    <img src="/images/book3.jpg" alt="Fjords" style="width:100%">
+                    <div class="caption"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<button id="btn" class="btn btn-info">Fetch your IP Address and Host Location</button>
+<div id="animal-info" class="form-group"></div>
+<button id="myinfobtn" class="btn btn-info">My Personal Info</button>
+<div id="my-personal-info" class="form-group"></div>
+
+<script src="js/main.js"></script>
+<!--<script type="text/javascript" th:src="@{/js/main.js}" />-->
+</body>
+</html>
