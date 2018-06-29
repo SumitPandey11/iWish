@@ -16,17 +16,57 @@
 </head>
 <body>
 
-<nav th:fragment="login-navigation">
+
+
+<nav th:fragment="login-navigation" class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="">iWish</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/user">Home</a></li>
+            <li><a href="/gift/add">Create Wish</a></li>
+            <li><a href="/gift/list">My WishList</a></li>
+            <li><a href="/gift/wishListSeeker">WishList Seeker</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+
+<nav th:fragment="home-navigation" class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/user/login">Login</a></li>
+            <li><a href="/user/add">Register</a></li>
+        </ul>
+    </div>
+</nav>
+
+<nav th:fragment="no-login-navigation" class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/user/add">Register</a></li>
+        </ul>
+    </div>
+</nav>
+
+<nav th:fragment="old-login-navigation">
     <a href="/user">Home</a> |
     <a href="/gift/add">Create Wish</a> |
     <a href="/gift/list">My WishList</a> |
     <a href="/gift/wishListSeeker">WishList Seeker</a>
 </nav>
 
-<nav th:fragment="no-login-navigation">
+<nav th:fragment="old-no-login-navigation">
     <a href="">Home</a> |
     <a href="/user/add">Register</a>
 </nav>
+
 
 </body>
 </html>

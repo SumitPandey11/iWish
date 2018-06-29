@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<nav th:replace="fragments :: no-login-navigation"></nav>
+
 <head th:replace="fragments :: head"></head>
 
-<body>
-<h1>Welcome to iWish</h1>
+<body class="container">
+<nav th:replace="fragments :: home-navigation"></nav>
+
+<div class="jumbotron well">
+    <div class="container text-center">
+        <h1>iWish</h1>
+        <p>Let your friend help you achieve your Wishlist...</p>
+    </div>
+</div>
 
 
-
-<div class="container">
-    <h2>Best Sellers</h2>
+<div class="container-fluid bg-3 text-center" >
+    <h3>Best Sellers</h3><br>
 
     <div class="row">
         <div class="col-md-2" th:each="i : ${#numbers.sequence( 1, 6/1)}">
@@ -22,13 +28,9 @@
 
 
     <div class="row">
-        <div class="col-md-6">
-            <button id="btn" class="btn btn-info">Fetch your IP Address and Host Location</button>
+        <div class="col-md-12">
+            <button id="btn" class="btn btn-info" th:onclick="@{'getLoctaionDetailsByIP()'}">Fetch your IP Address and Host Location</button>
             <div id="animal-info" class="form-group"></div>
-        </div>
-        <div class="col-md-6">
-            <button id="myinfobtn" class="btn btn-info">My Personal Info</button>
-            <div id="my-personal-info" class="form-group"></div>
         </div>
     </div>
 </div>

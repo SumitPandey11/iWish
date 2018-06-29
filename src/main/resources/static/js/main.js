@@ -1,29 +1,21 @@
-var animalContainer = document.getElementById("animal-info");
-var btn = document.getElementById("btn");
-
-var myinfobtn = document.getElementById("myinfobtn");
-var personalInfoContainer = document.getElementById("my-personal-info");
-
-var bookbtn = document.getElementById("bookimg");
-var bookInfoContainer = document.getElementById("divbook1");
-
-btn.addEventListener("click", function(){
+function getLoctaionDetailsByIP(){
     var ourRequest = new XMLHttpRequest();
     ourRequest.open('GET','http://ip-api.com/json');
 
     ourRequest.onload = function(){
         var ourData = JSON.parse(ourRequest.responseText);
         console.log(ourData);
-        renderHTML(ourData);
+        renderHTML(ourData );
     };
     ourRequest.send();
-    btn.classList.add('hide-me');
 
-});
+ }
 
 function renderHTML(data){
-    var htmlString = "<p> IP Address: " +  data.query +
 
+    var ipDivContainer = document.getElementById('animal-info');
+
+    var htmlString = "<p> IP Address: " +  data.query +
                      "<p> Country: " + data.country +
                      "<p> countryCode: " + data.countryCode +
                      "<p> city: " +  data.city +
@@ -38,28 +30,9 @@ function renderHTML(data){
                      "</p> lon: " + data.lon;
 
 
-    animalContainer.insertAdjacentHTML('beforeend',htmlString);
+    ipDivContainer.insertAdjacentHTML('beforeend',htmlString);
 }
 
-myinfobtn.addEventListener("click", function(){
-    var ourRequest = new XMLHttpRequest();
-    ourRequest.open('GET','/json/sumit.json',true);
-
-    ourRequest.onload = function(){
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderPersonalHTML(ourData);
-    };
-    ourRequest.send();
-
-});
-
-function renderPersonalHTML(data){
-    var htmlString = "<p> Firstname: " +  data.firstname +
-                     "<p> lastname: " + data.lastname;
-
-    personalInfoContainer.insertAdjacentHTML('beforeend',htmlString);
-}
 
 function getBookDetails(id){
    var ourRequest = new XMLHttpRequest();
@@ -89,6 +62,52 @@ function renderbookHTML(data , id){
 
         bookInfoDivContainer.insertAdjacentHTML('beforeend',htmlString);
 }
+
+
+//var animalContainer = document.getElementById("animal-info");
+//var btn = document.getElementById("btn");
+
+//var myinfobtn = document.getElementById("myinfobtn");
+//var personalInfoContainer = document.getElementById("my-personal-info");
+
+//var bookbtn = document.getElementById("bookimg");
+//var bookInfoContainer = document.getElementById("divbook1");
+
+/*btn.addEventListener("click", function(){
+    var ourRequest = new XMLHttpRequest();
+    ourRequest.open('GET','http://ip-api.com/json');
+
+    ourRequest.onload = function(){
+        var ourData = JSON.parse(ourRequest.responseText);
+        console.log(ourData);
+        renderHTML(ourData);
+    };
+    ourRequest.send();
+    btn.classList.add('hide-me');
+
+});*/
+
+
+
+/*myinfobtn.addEventListener("click", function(){
+    var ourRequest = new XMLHttpRequest();
+    ourRequest.open('GET','/json/sumit.json',true);
+
+    ourRequest.onload = function(){
+        var ourData = JSON.parse(ourRequest.responseText);
+        console.log(ourData);
+        renderPersonalHTML(ourData);
+    };
+    ourRequest.send();
+
+});*/
+
+/*function renderPersonalHTML(data){
+    var htmlString = "<p> Firstname: " +  data.firstname +
+                     "<p> lastname: " + data.lastname;
+
+    personalInfoContainer.insertAdjacentHTML('beforeend',htmlString);
+}*/
 
 /*
 
