@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: login-navigation"></nav>
+<h1 th:text="${title}">Wish List Seeker</h1>
+<div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="user : ${contributors}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

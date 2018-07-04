@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ArrayBlockingQueue;
 
 @Controller
 @SessionAttributes("user")
@@ -200,5 +201,21 @@ public class GiftController {
     }
 
 
+    @RequestMapping(value = "contributedBy/{giftId}", method = RequestMethod.GET)
+    public String contributedByForm(Model model, @PathVariable int giftId){
+        List<Integer> usersIds = contributionDao.findUsersContributedByGift_Id(giftId);
+        Iterable<User> contributors = new ArrayList<>();
+
+        if(!usersIds.isEmpty()){
+            contributors = userDao.findAllById(usersIds);
+            model.addAttribute("contributors",contributors);
+            model.addAttribute("title", "Contributed by" );
+        }else{
+            model.addAttribute("contributors",contributors);
+            model.addAttribute("title", "Sorry No Contribution. " );
+        }
+
+        return "gift/contributedByList";
+    }
 }
 

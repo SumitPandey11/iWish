@@ -23,4 +23,7 @@ public interface ContributionDao extends CrudRepository<Contribution, Integer> {
 
     @Query(value = "SELECT DISTINCT 'user_id' FROM contribution",nativeQuery = true)
     public List<User> findAllContributor();
+
+    @Query(value = "SELECT DISTINCT user_id FROM contribution  WHERE gift_id = :giftId",nativeQuery = true)
+    public List<Integer> findUsersContributedByGift_Id(@Param("giftId") int giftId);
 }

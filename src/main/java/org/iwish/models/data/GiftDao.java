@@ -18,4 +18,6 @@ public interface GiftDao extends CrudRepository<Gift, Integer> {
 
     @Query(value = "SELECT DISTINCT user_id FROM gift",nativeQuery = true)
     public List<Integer> findAllGiftSeekersUserId();
+
+
 }
