@@ -13,13 +13,15 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
+            <th>Total Amount</th>
         </tr>
         </thead>
         <tbody>
 
-        <tr th:each="user : ${contributors}">
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.email}"></td>
+        <tr th:each="contributor : ${usersContributionsByGiftIdList}">
+            <td th:text="${contributor.name}"></td>
+            <td th:text="${contributor.email}"></td>
+            <td th:text="${contributor.totalamount}"></td>
         </tr>
 
         </tbody>

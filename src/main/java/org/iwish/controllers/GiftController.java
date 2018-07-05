@@ -7,6 +7,7 @@ import org.iwish.models.data.ContributionDao;
 import org.iwish.models.data.GiftDao;
 import org.iwish.models.data.UserDao;
 import org.iwish.models.form.GiftAndContibutionAmount;
+import org.iwish.models.form.UsersContributionsByGiftId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -206,12 +207,25 @@ public class GiftController {
         List<Integer> usersIds = contributionDao.findUsersContributedByGift_Id(giftId);
         Iterable<User> contributors = new ArrayList<>();
 
+        List<Object[]> usersContributionsByGiftIds = contributionDao.findContributionAmountUsernameEmailByGift_Id(giftId);
+
+        List<UsersContributionsByGiftId> usersContributionsByGiftIdList = new ArrayList<>();
+
+        for(Object[] obj : usersContributionsByGiftIds){
+
+            Double.valueOf(String.valueOf(obj[0]));
+
+            //Check the findContributionAmountUsernameEmailByGift_Id @Query
+            // the query is returning the column in this seqesnce -- >  contribution.totalamount, contribution.gift_id, user.name , user.email
+            //So we are retriving the data in same ourder and setting in the constructor
+            usersContributionsByGiftIdList.add(new UsersContributionsByGiftId(Double.valueOf(String.valueOf(obj[0])),Integer.valueOf(String.valueOf(obj[1])),String.valueOf(obj[2]),String.valueOf(obj[3])));
+        }
         if(!usersIds.isEmpty()){
             contributors = userDao.findAllById(usersIds);
-            model.addAttribute("contributors",contributors);
+            model.addAttribute("usersContributionsByGiftIdList",usersContributionsByGiftIdList);
             model.addAttribute("title", "Contributed by" );
         }else{
-            model.addAttribute("contributors",contributors);
+            model.addAttribute("usersContributionsByGiftIdList",usersContributionsByGiftIdList);
             model.addAttribute("title", "Sorry No Contribution. " );
         }
 

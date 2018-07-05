@@ -11,12 +11,15 @@
 <h1 th:text="${'Welcome ' + user?.name}">Default Title</h1>
 
 
-<div>
-   <!--'?' operator check for null
-    If you have 'user' entity with embedded 'name' entity in order to access fields of 'user' entity and print them if 'name'
-     '?' on user is checkig if this is not null then access name. Otherwise it will pront blank. -->
-<!-- Following user objet is set in the session in the user controller-->
-   <!-- <h3 th:text="${'Welcome ' + user?.name}">Please Login</h3>-->
+<div class="container-fluid bg-3 " >
+   <h3>Your Current Location</h3><br>
+
+   <div class="row">
+      <div class="col-md-12">
+         <button id="btn" class="btn btn-info" th:onclick="@{'getLoctaionDetailsByIP()'}">Fetch your IP Address and Host Location</button>
+         <div id="animal-info" class="form-group"></div>
+      </div>
+   </div>
 </div>
 
 </body>
