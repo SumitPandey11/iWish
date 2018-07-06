@@ -213,8 +213,6 @@ public class GiftController {
 
         for(Object[] obj : usersContributionsByGiftIds){
 
-            Double.valueOf(String.valueOf(obj[0]));
-
             //Check the findContributionAmountUsernameEmailByGift_Id @Query
             // the query is returning the column in this seqesnce -- >  contribution.totalamount, contribution.gift_id, user.name , user.email
             //So we are retriving the data in same ourder and setting in the constructor

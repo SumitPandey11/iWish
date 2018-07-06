@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<nav th:replace="fragments :: login-navigation"></nav>
+<h1 th:text="${title}">Default Title</h1>
+
+<div class="container">
+    <form class="form-inline" method="post" >
+        <div class="row panel panel-default">
+        <div class="form-group panel-body" >
+            <label th:for="name">ISBN Number: </label>
+            <input class="form-control" name="isbn" value="9780071808552"/>
+            <input type="submit" class="btn btn-info" value="Search" />
+        </div>
+
+        </div>
+    </form>
+<p></p>
+    <form class="form-inline" method="post" action="/book/addtoreadinglist" th:object="${bookDetails}">
+    <div th:each="item : ${bookDetails.items}" class="row panel panel-default">
+        <div class="col-lg-2"><img  th:src="@{${item.volumeInfo.imageLinks.smallThumbnail}}" alt="Lights"></div>
+        <div  th:text="${'Title :' + item.volumeInfo.title}"></div><p>
+        <div  th:text="${'Rating :' + item.volumeInfo.averageRating}"></div><p>
+        <div  th:text="${'Description :' + item.volumeInfo.description}"></div>
+        <b>Author :</b>
+        <div th:each="author : ${item.volumeInfo.authors}">
+            <span th:text="${author}"></span>
+        </div>
+        <b>ISBN :</b>
+        <div th:each="identifier : ${item.volumeInfo.industryIdentifiers}">
+            <span th:text="${identifier.type + ' : ' + identifier.identifier } "></span>
+        </div>
+        <input type="submit" class="btn btn-info" value="Add to my reading list" />
+        <input type="hidden" name="isbn" th:value="${isbn}" />
+        <input type="hidden" name="title" th:value="${item.volumeInfo.title}" />
+        <input type="hidden" name="thumbnail" th:value="${item.volumeInfo.imageLinks.smallThumbnail}" />
+        <input type="submit" class="btn btn-info" value="Add to my reading list" />
+    </div>
+    </form>
+</div>
+
+</body>
+</html>

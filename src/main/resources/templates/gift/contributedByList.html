@@ -21,7 +21,7 @@
         <tr th:each="contributor : ${usersContributionsByGiftIdList}">
             <td th:text="${contributor.name}"></td>
             <td th:text="${contributor.email}"></td>
-            <td th:text="${contributor.totalamount}"></td>
+            <td th:text="${'$ ' + contributor.totalamount}"></td>
         </tr>
 
         </tbody>

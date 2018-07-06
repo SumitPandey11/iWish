@@ -31,4 +31,8 @@ public interface ContributionDao extends CrudRepository<Contribution, Integer> {
     //SELECT sum(c.amount) , c.gift_id, u.name FROM `contribution` C , user U WHERE C.`user_id` = u.id and gift_id=2 GROUP BY `user_id`
     @Query(value = "SELECT sum(c.amount) as totalamount, c.gift_id, u.name , u.email FROM contribution C , user U WHERE C.user_id = u.id and gift_id=:giftId GROUP BY user_id" ,nativeQuery = true)
     public List<Object[]> findContributionAmountUsernameEmailByGift_Id(@Param("giftId") int giftId);
+
+    //SELECT sum(c.amount) , c.gift_id, u.name FROM `contribution` C , user U WHERE C.`user_id` = u.id and gift_id=2 GROUP BY `user_id`
+    @Query(value = "SELECT sum(c.amount) as totalamount, c.gift_id as giftId, u.name as name , u.email as email FROM contribution C , user U WHERE C.user_id = u.id and gift_id=:giftId GROUP BY user_id" ,nativeQuery = true)
+    public List<UsersContributionsByGiftId> test(@Param("giftId") int giftId);
 }
