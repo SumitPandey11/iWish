@@ -4,6 +4,7 @@
 <body class="container">
 <nav th:replace="fragments :: login-navigation"></nav>
 <h1 th:text="${title}">Default Title</h1>
+<h3 th:text="${error}"></h3>
 
 
 <div class="leftContainer">
@@ -15,88 +16,23 @@
     </div>
 
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Rating</th>
-            <th>Descritpiton</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <tr th:each="item : ${bookDetails.items}">
-            <img  th:src="@{${item.volumeInfo.imageLinks.smallThumbnail}}" alt="Lights">
-            <td th:text="${item.volumeInfo.title}"></td>
-            <td th:text="${item.selfLink}"></td>
-            <td th:text="${item.volumeInfo.averageRating}"></td>
-            <td th:text="${item.volumeInfo.description}"></td>
-        </tr>
-
-        </tbody>
-    </table>
 
 
-    <div th:each="item : ${bookDetails.items}">
-        <img  th:src="@{${item.volumeInfo.imageLinks.smallThumbnail}}" alt="Lights">
-        <span th:text="${'Title :' + item.volumeInfo.title}"></span></br>
-        <span th:text="${'Rating :' + item.volumeInfo.averageRating}"></span></br>
-        <span th:text="${'Description :' + item.volumeInfo.description}"></span>
-    </div>
 
     <div class="elementList" style="padding-top: 10px;">
-        <div class="left" style="width: 75%;">
-            <a title="My Side of the Mountain (Mountain, #1)" class="leftAlignedImage" href="/book/show/41667.My_Side_of_the_Mountain"><img alt="My Side of the Mountain (Mountain, #1)" src="https://images.gr-assets.com/books/1388204221s/41667.jpg" /></a>
+        <div class="left" style="width: 100%;" th:each="bookReadingList : ${bookReadingListList}" >
 
-            <a class="bookTitle" href="/book/show/41667.My_Side_of_the_Mountain">My Side of the Mountain (Mountain, #1)</a>
+            <img  th:src="@{${bookReadingList.bookThumbNailImage}}" alt="Lights" width="6%" height="8%">
 
-            <span class='by smallText'>by - Jean Craighead George</span>
-            <span class="greyText smallText">
-                avg rating 4.04 —
-                76,270 ratings  —
-                published 1959
-             </span>
-            <div class="form-group" style="width: 25%;">
-                <label for="sel1">Select list (select one):</label>
-                <select class="form-control" id="sel1">
-                    <option>Reading</option>
-                    <option>Read</option>
-                    <option>Not Started</option>
-                </select>
-            </div>
+            <a th:href="@{'/gift/list/'+ ${bookReadingList.isbn}}" th:text="${bookReadingList.bookTitle}"></a>
+
+           <input type="submit" class="btn btn-info" value="Target to complete" />
+            <input type="submit" class="btn btn-info " value="Completed" />
+
+            <a th:href="@{'/book/delete/'+ ${bookReadingList.id}}" data-toggle="tooltip" title="Delete"> <i class="fa fa-trash w3-padding w3-xlarge w3-text-orange"></i></a></td>
+            <p>
         </div>
 
-    </div>
-
-    <div class="elementList" style="padding-top: 10px;">
-        <div class="left" style="width: 75%;">
-            <a title="The Hobbit" class="leftAlignedImage" href="/book/show/5907.The_Hobbit"><img alt="The Hobbit" src="https://images.gr-assets.com/books/1372847500s/5907.jpg" /></a>
-
-            <a class="bookTitle" href="/book/show/5907.The_Hobbit">The Hobbit (Paperback)</a>
-
-            <span class='by smallText'>by - Jean Craighead George</span>
-            <span class="greyText smallText">
-                    avg rating 4.04 —
-                    76,270 ratings  —
-                    published 1959
-                  </span>
-        </div>
-    </div>
-
-    <div class="elementList" style="padding-top: 10px;">
-        <div class="left" style="width: 75%;">
-            <a title="Maniac Magee" class="leftAlignedImage" href="/book/show/139463.Maniac_Magee"><img alt="Maniac Magee" src="https://images.gr-assets.com/books/1395884800s/139463.jpg" /></a>
-
-            <a class="bookTitle" href="/book/show/139463.Maniac_Magee">Maniac Magee (Paperback)</a>
-
-            <span class='by smallText'>by - Jean Craighead George</span>
-            <span class="greyText smallText">
-                     avg rating 3.86 —
-                124,776 ratings  —
-                published 1990
-                  </span>
-        </div>
     </div>
 
 </div>

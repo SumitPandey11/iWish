@@ -1,28 +1,29 @@
 package org.iwish.controllers;
 
-import org.iwish.models.Gift;
+import org.iwish.models.BookReadingList;
+import org.iwish.models.User;
+import org.iwish.models.data.BookReadingListDao;
+import org.iwish.models.data.UserDao;
 import org.iwish.models.pojo.book.BookDetails;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+
 
 @Controller
 @RequestMapping("book")
 public class BookController {
 
-    @RequestMapping(value="readinglist",method = RequestMethod.GET)
-    public String displayReadingList(Model model){
-        model.addAttribute("title","My Reading List");
-        model.addAttribute("bookDetails",new BookDetails());
+    @Autowired
+    private BookReadingListDao bookReadingListDao;
 
-        return "book/readinglist";
-    }
+    @Autowired
+    private UserDao userDao;
 
     @RequestMapping(value="booksearch",method = RequestMethod.GET)
     public String displayBookSearch(Model model){
@@ -42,10 +43,67 @@ public class BookController {
         return "book/bookSearch";
     }
 
+    @RequestMapping(value = "readinglist", method = RequestMethod.GET)
+    public String displayMyReadingList(@SessionAttribute("user") User user, Model model){
+
+        Integer userId = new Integer(user.getId());
+        List<BookReadingList> bookReadingListList = bookReadingListDao.findByUser_Id(userId);
+        model.addAttribute("title","My Reading List ");
+        model.addAttribute("bookReadingListList",bookReadingListList);
+
+        return "book/readinglist";
+    }
+
     @RequestMapping(value="addtoreadinglist",method = RequestMethod.POST)
-    public String bookSearch(Model model, @RequestParam("isbn") String isbn, @RequestParam("title") String title, @RequestParam("thumbnail") String thumbnail){
-        model.addAttribute("title","My Reading List : title : " + title + " isbn : " + isbn +" image url : " + thumbnail );
-        model.addAttribute("bookDetails",new BookDetails());
+    public String addToReadingList(@SessionAttribute("user") User user,Model model, @RequestParam("isbn") String isbn, @RequestParam("title") String title, @RequestParam("thumbnail") String thumbnail){
+
+
+
+        BookReadingList readingList = new BookReadingList();
+
+        Integer userId = new Integer(user.getId());
+        Optional<User> u = userDao.findById(userId);
+
+        if(u.isPresent()){
+            user = u.get();
+
+            //Check if the Book is already in the Reading List then dont add the book.
+            if (bookReadingListDao.findByIsbnAndUser_Id(isbn,userId).isEmpty()) {
+                readingList.setUser(user);
+                readingList.setBookTitle(title);
+                readingList.setBookThumbNailImage(thumbnail);
+                readingList.setIsbn(isbn);
+                bookReadingListDao.save(readingList);
+            }
+            else{
+                model.addAttribute("error","You already have the " + title + " in your realing list");
+            }
+
+        }
+
+        List<BookReadingList> bookReadingListList = bookReadingListDao.findByUser_Id(userId);
+        model.addAttribute("title","My Reading List ");
+        model.addAttribute("bookReadingListList",bookReadingListList);
+
+        return "book/readinglist";
+    }
+
+    @RequestMapping(value="delete/{id}",method = RequestMethod.GET)
+    public String deleteBookFromReadingList(@SessionAttribute("user") User user, Model model, @PathVariable int id){
+
+        BookReadingList readingList = new BookReadingList();
+
+        Integer userId = new Integer(user.getId());
+        Optional<User> u = userDao.findById(userId);
+
+        if(u.isPresent()){
+            user = u.get();
+            bookReadingListDao.deleteById(id);
+        }
+
+        List<BookReadingList> bookReadingListList = bookReadingListDao.findByUser_Id(userId);
+        model.addAttribute("title","My Reading List ");
+        model.addAttribute("bookReadingListList",bookReadingListList);
 
         return "book/readinglist";
     }

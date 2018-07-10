@@ -41,6 +41,10 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Contribution> contributions = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<BookReadingList> bookReadingLists = new ArrayList<>();
+
     public User(){
 
     }
