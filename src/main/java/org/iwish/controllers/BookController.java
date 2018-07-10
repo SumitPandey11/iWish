@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,6 +101,30 @@ public class BookController {
         if(u.isPresent()){
             user = u.get();
             bookReadingListDao.deleteById(id);
+        }
+
+        List<BookReadingList> bookReadingListList = bookReadingListDao.findByUser_Id(userId);
+        model.addAttribute("title","My Reading List ");
+        model.addAttribute("bookReadingListList",bookReadingListList);
+
+        return "book/readinglist";
+    }
+
+    @RequestMapping(value="complete/{id}",method = RequestMethod.GET)
+    public String markBookAsComplete(@SessionAttribute("user") User user, Model model, @PathVariable int id){
+
+        Integer userId = new Integer(user.getId());
+        Optional<User> u = userDao.findById(userId);
+
+        if(u.isPresent()){
+            user = u.get();
+            Optional<BookReadingList> bookReadingList = bookReadingListDao.findById(id);
+            if(bookReadingList.isPresent()){
+                BookReadingList bookReadingListToUpdate = bookReadingList.get();
+                bookReadingListToUpdate.setCompletedOn(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+                bookReadingListDao.save(bookReadingListToUpdate);
+
+            }
         }
 
         List<BookReadingList> bookReadingListList = bookReadingListDao.findByUser_Id(userId);
