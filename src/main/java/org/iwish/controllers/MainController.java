@@ -11,4 +11,9 @@ public class MainController {
     public  String index(){
         return "index";
     }
+
+    @RequestMapping(value = "user/search", method = RequestMethod.GET)
+    public  String searchUser(){
+        return "user/search";
+    }
 }

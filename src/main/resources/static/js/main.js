@@ -64,81 +64,17 @@ function renderbookHTML(data , id){
 }
 
 
-//var animalContainer = document.getElementById("animal-info");
-//var btn = document.getElementById("btn");
-
-//var myinfobtn = document.getElementById("myinfobtn");
-//var personalInfoContainer = document.getElementById("my-personal-info");
-
-//var bookbtn = document.getElementById("bookimg");
-//var bookInfoContainer = document.getElementById("divbook1");
-
-/*btn.addEventListener("click", function(){
+function getReadingListByUserId(){
     var ourRequest = new XMLHttpRequest();
-    ourRequest.open('GET','http://ip-api.com/json');
+    ourRequest.open('GET','http://localhost:8080/readinglist/63');
 
     ourRequest.onload = function(){
         var ourData = JSON.parse(ourRequest.responseText);
         console.log(ourData);
-        renderHTML(ourData);
-    };
-    ourRequest.send();
-    btn.classList.add('hide-me');
 
-});*/
-
-
-
-/*myinfobtn.addEventListener("click", function(){
-    var ourRequest = new XMLHttpRequest();
-    ourRequest.open('GET','/json/sumit.json',true);
-
-    ourRequest.onload = function(){
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderPersonalHTML(ourData);
     };
     ourRequest.send();
 
-});*/
-
-/*function renderPersonalHTML(data){
-    var htmlString = "<p> Firstname: " +  data.firstname +
-                     "<p> lastname: " + data.lastname;
-
-    personalInfoContainer.insertAdjacentHTML('beforeend',htmlString);
-}*/
-
-/*
-
-bookbtn.addEventListener("click", function(){
-    var ourRequest = new XMLHttpRequest();
-    ourRequest.open('GET','/json/book1.json',true);
-
-    ourRequest.onload = function(){
-        var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
-        renderbookHTML(ourData);
-    };
-    ourRequest.send();
-
-});
-
-function renderbookHTML(data){
-    var htmlString = "<p> Title: " +  data.title +
-                     "<p> Autor: " + data.autor +
-                     "<p> Publisher: " + data.Publisher +
-                     "<p> Rating: " + data.rating +  "  Review's : " + data.numerofreview +
-                     "<p> price: " + data.price + "<p> Available format: ";
-
-      for(var i = 0 ; i < data.format.length ; i++){
-            htmlString += data.format[i] + ", ";
-      }
-
-        bookInfoContainer.insertAdjacentHTML('beforeend',htmlString);
-}
+ }
 
 
-
-
-*/

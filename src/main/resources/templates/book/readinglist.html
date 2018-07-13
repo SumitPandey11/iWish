@@ -11,24 +11,30 @@
 
     <div class="elementList" style="padding-top: 10px;">
         <div class="left" style="width: 100%;" th:each="bookReadingList : ${bookReadingListList}" >
+            <div class="col-md-9" >
+                    <img  th:src="@{${bookReadingList.bookThumbNailImage}}" alt="Lights" width="6%" height="8%">
 
-            <img  th:src="@{${bookReadingList.bookThumbNailImage}}" alt="Lights" width="6%" height="8%">
-
-            <a th:href="@{'/gift/list/'+ ${bookReadingList.isbn}}" th:text="${bookReadingList.bookTitle}"></a>
-
-            &nbsp;&nbsp;&nbsp;&nbsp;<a th:href="@{'/book/delete/'+ ${bookReadingList.id}}" data-toggle="tooltip" title="Set target date to complete"> <i class="glyphicon glyphicon-calendar "></i></a>
-            &nbsp;&nbsp;<a th:if="${bookReadingList.completedOn == null}" th:href="@{'/book/complete/'+ ${bookReadingList.id}}" data-toggle="tooltip" title="Mark this as read"> <i class="glyphicon glyphicon-ok "></i></a>
-            <span th:if="${bookReadingList.completedOn != null}" th:text="${#dates.format(new java.util.Date(bookReadingList.completedOn), 'dd-MMM-yy')}"  class=" label label-success"></span>
-            &nbsp;<a th:href="@{'/book/delete/'+ ${bookReadingList.id}}" data-toggle="tooltip" title="Delete"> <i class="fa fa-trash w3-padding w3-xlarge w3-text-orange"></i></a>
-
-
-
-            <p>
+                    <a th:href="@{'/gift/list/'+ ${bookReadingList.isbn}}" th:text="${bookReadingList.bookTitle}"></a>
+            </div>
+            <div class="col-md-2">
+                &nbsp;&nbsp;&nbsp;&nbsp;<a th:href="@{'/book/delete/'+ ${bookReadingList.id}}" data-toggle="tooltip" title="Set target date to complete"> <i class="glyphicon glyphicon-calendar "></i></a>
+            <!--</div>
+             <div class="col-md-2">-->
+                &nbsp;&nbsp;<a th:if="${bookReadingList.completedOn == null}" th:href="@{'/book/complete/'+ ${bookReadingList.id}}" data-toggle="tooltip" title="Mark this as read"> <i class="glyphicon glyphicon-ok "></i></a>
+             <!--</div>
+             <div class="col-md-2">-->
+                <span th:if="${bookReadingList.completedOn != null}" th:text="${#dates.format(new java.util.Date(bookReadingList.completedOn), 'dd-MMM-yy')}"  class=" label label-success"></span>
+             </div>
+            <div class="col-md-1" >
+                <a th:href="@{'/book/delete/'+ ${bookReadingList.id}}" data-toggle="tooltip" title="Delete"> <i class="fa fa-trash w3-padding w3-xlarge w3-text-orange"></i></a>
+             </div>
         </div>
-
     </div>
 
+            <p></p>
 </div>
+
+
 
 </body>
 </html>

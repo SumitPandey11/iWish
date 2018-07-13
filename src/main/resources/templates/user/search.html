@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<nav th:replace="fragments :: no-login-navigation"></nav>
+<h1 th:text="${title}">Live Search</h1>
+
+
+<div class="well well-lg" id="searcharea">
+    <label  for="searchthis">User search</label>
+
+    <input type="search" name="search" id="searchthis" placeholder="name or email" />
+</div>
+<div class="well well-lg " id="update"></div>
+    <script src="/js/booksearch.js"></script>
+</body>
+</html>
