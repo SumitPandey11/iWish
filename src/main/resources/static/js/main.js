@@ -78,3 +78,6 @@ function getReadingListByUserId(){
  }
 
 
+function goBack() {
+    window.history.back();
+}

@@ -3,12 +3,12 @@
 //JSON-AJAX code to fetch all the users
 //'data' returned from the "http://localhost:8080/user" is passed to call back function
  $('#searchthis').keyup(function(){
-    //create a variable to sote the text that  user in typing
+    //create a variable to store the text that  user in typing
     var searchfield = $('#searchthis').val();
-    //For case insensitive search create regular expression,
+    //For case insensitive search, create regular expression,
     //"i" indicated ignore case
     var myExp = new RegExp(searchfield,"i")
-  $.getJSON("http://localhost:8080/user", function(data){
+    $.getJSON("http://localhost:8080/user", function(data){
      var output = '<ul cass="searchresults">';
      $.each(data, function(key, val){
          //if the name or email matches the text that usre key in then include that in optput

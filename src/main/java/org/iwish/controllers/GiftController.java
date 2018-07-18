@@ -80,7 +80,7 @@ public class GiftController {
    }
 
     @RequestMapping(value="update",method = RequestMethod.POST)
-    public String updateGift(Model model,@ModelAttribute("gift") @Valid Gift gift, Errors errors){
+    public String updateGift(@SessionAttribute("user") User currentUserInSession, Model model,@ModelAttribute("gift") @Valid Gift gift, Errors errors){
 
         if(errors.hasErrors()){
             return "gift/edit";
@@ -92,7 +92,10 @@ public class GiftController {
         */
         giftDao.save(gift);
         model.addAttribute("title", "Successfully updated :  " + gift.getName());
-        return "gift/index";
+        //return "gift/index";
+        int userId = currentUserInSession.getId();
+        return "redirect:/gift/list/"+userId;
+
     }
 
     @RequestMapping(value="delete/{giftId}/userId/{userId}",method = RequestMethod.GET)
@@ -174,14 +177,14 @@ public class GiftController {
     }
 
     @RequestMapping(value = "contribute", method = RequestMethod.POST)
-    public String saveContribution(@SessionAttribute User user, @ModelAttribute Gift gift , Model model,double amount, int giftId){
+    public String saveContribution(@SessionAttribute User user, @ModelAttribute Gift gift , Model model,double totalamount, int giftId){
         Contribution contribution = new Contribution();
         Optional<Gift> aGifts = giftDao.findById(giftId);
         Gift aGift= null;
         if(aGifts.isPresent()){
             aGift = aGifts.get();
         }
-        contribution.setAmount(amount);
+        contribution.setAmount(totalamount);
         contribution.setUser(user);
         contribution.setGift(aGift);
         contributionDao.save(contribution);
