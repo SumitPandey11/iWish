@@ -33,11 +33,9 @@
         <button class="btn btn-info" th:onclick="@{'createBarChart(' + ${giftId} +')' }" data-toggle="tooltip" id="BtnPieChart"><i class="fa fa-pie-chart" style="font-size:18px;color:red"></i> </button>
 
     </div>
-</div>
+    <div id="piechart">
 
-<div id="piechart">
-
-    <script type="text/javascript">
+        <script type="text/javascript">
        function createBarChart(giftId){
 
         // Hide the Button "BtnPieChart"
@@ -85,6 +83,9 @@
         }
       }
     </script>
+    </div>
 </div>
+
+
 </body>
 </html>
