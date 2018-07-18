@@ -2,35 +2,89 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 
-<body class="container">
+<div class="container">
 
 <nav th:replace="fragments :: login-navigation"></nav>
 <h1 th:text="${title}">Wish List Seeker</h1>
-<div>
+    <div>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Total Amount</th>
-        </tr>
-        </thead>
-        <tbody>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Total Amount</th>
+            </tr>
+            </thead>
+            <tbody>
 
-        <tr th:each="contributor : ${usersContributionsByGiftIdList}">
-            <td th:text="${contributor.name}"></td>
-            <td th:text="${contributor.email}"></td>
-            <td th:text="${'$ ' + contributor.totalamount}"></td>
-        </tr>
+            <tr th:each="contributor : ${usersContributionsByGiftIdList}">
+                <td th:text="${contributor.name}"></td>
+                <td th:text="${contributor.email}"></td>
+                <td th:text="${'$ ' + contributor.totalamount}"></td>
+            </tr>
 
-        </tbody>
+            </tbody>
 
-    </table>
+        </table>
 
 
-    <button class="btn btn-info" onclick="goBack()"><i class="fa fa-close"></i> Close</button>
+        <button class="btn btn-info" onclick="goBack()"><i class="fa fa-close"></i> Close</button>
+        <button class="btn btn-info" th:onclick="@{'createBarChart(' + ${giftId} +')' }" data-toggle="tooltip" id="BtnPieChart"><i class="fa fa-pie-chart" style="font-size:18px;color:red"></i> </button>
+
+    </div>
 </div>
 
+<div id="piechart">
+
+    <script type="text/javascript">
+       function createBarChart(giftId){
+
+        // Hide the Button "BtnPieChart"
+        var x = document.getElementById("BtnPieChart");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+
+
+        // Load google charts
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+
+        // Draw the chart and set the chart values
+
+        var x = this.getElementById("giftId").value;
+
+       // var giftId = 64;
+        function drawChart() {
+
+
+            var dataarray = [];
+            var temparray = ['Name','Amount'];
+            dataarray.push(temparray);
+
+            $.getJSON("http://localhost:8080/api/contributedBy/"+giftId, function(data){
+
+
+                $.each(data, function(key, val){
+                    dataarray.push([key, val]); // Add a row with a string and a date value.
+                });
+                console.log(dataarray);
+                var data = google.visualization.arrayToDataTable(dataarray);
+
+                  // Optional; add a title and set the width and height of the chart
+                  var options = {'title':'Contribution Distribution', 'width':550, 'height':400,'is3D': true};
+
+                  // Display the chart inside the <div> element with id="piechart"
+                  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                  chart.draw(data, options);
+            });
+        }
+      }
+    </script>
+</div>
 </body>
 </html>

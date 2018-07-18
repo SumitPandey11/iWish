@@ -225,6 +225,7 @@ public class GiftController {
             contributors = userDao.findAllById(usersIds);
             model.addAttribute("usersContributionsByGiftIdList",usersContributionsByGiftIdList);
             model.addAttribute("title", "Contributed by" );
+            model.addAttribute("giftId", giftId );
         }else{
             model.addAttribute("usersContributionsByGiftIdList",usersContributionsByGiftIdList);
             model.addAttribute("title", "Sorry No Contribution. " );
