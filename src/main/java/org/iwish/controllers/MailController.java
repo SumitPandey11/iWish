@@ -15,10 +15,12 @@ public class MailController {
     @RequestMapping(value = "/mailsend", method = RequestMethod.GET)
     public String createMail() {
 
-        emailService.sendSimpleMessage("sumitsenpaney@gmail.com",
+        emailService.sendSimpleMessage("sumitsenpandey@gmail.com",
                 "Test-Subject", "Testing email from Spring Boot");
 
         return "index";
     }
+
+
 
 }

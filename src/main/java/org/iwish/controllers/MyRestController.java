@@ -20,6 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+
+
 @RestController
 public class MyRestController {
 
@@ -95,6 +101,26 @@ public class MyRestController {
     }
 
 
-
+    /*
+    This is a simple REST service to send email.
+    curretly to address is Hard Coded, just for an example I have created this web service
+     */
+    @Autowired
+    private JavaMailSender sender;
+    @RequestMapping("/sendMail")
+    public String sendMail() {
+        MimeMessage message = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        try {
+            helper.setTo("sumitsenpandey@gmail.com");
+            helper.setText("Greetings :)");
+            helper.setSubject("Mail From Spring Boot");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return "Error while sending mail ..";
+        }
+        sender.send(message);
+        return "Mail Sent Success!";
+    }
 
 }

@@ -45,6 +45,10 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<BookReadingList> bookReadingLists = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Event> events = new ArrayList<>();
+
     public User(){
 
     }
