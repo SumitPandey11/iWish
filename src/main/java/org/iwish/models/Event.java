@@ -1,5 +1,7 @@
 package org.iwish.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
@@ -21,6 +23,7 @@ public class Event {
     private Date date;
 
     @Basic
+    @DateTimeFormat(pattern = "hh:mm")
     private Time time;
 
     private String location;

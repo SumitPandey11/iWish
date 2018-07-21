@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: login-navigation"></nav>
+<h1 th:text="${title}">Default Title</h1>
+<p th:unless="${events} and ${events.size()}">No events :(</p>
+
+
+<table class="table">
+
+    <tr>
+        <th>Title</th>
+        <th>Occasion</th>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Invite</th>
+        <!--<th th:unless="${currentUserFlag} == true">Contribution</th>
+        <th th:unless="${currentUserFlag} == false">Contribution</th>
+        <th>Contribute</th>
+        <th>Target Date</th>
+        <th th:unless="${currentUserFlag} == false">Edit</th>
+        <th th:unless="${currentUserFlag} == false">Delete</th>-->
+    </tr>
+
+    <tr th:each="event : ${events}">
+        <td th:text="${event.title}"></td>
+        <td th:text="${event.occasion}"></td>
+        <td th:text="${event.date}"></td>
+        <td th:text="${event.location}"></td>
+        <td><a th:href="@{'/event/invite/'+ ${event.id}}" data-toggle="tooltip" title="Invite"><i class="glyphicon glyphicon-envelope"></i></a></td>
+        <!--<td th:unless="${currentUserFlag} == true" th:text="${giftAndContibutionAmount.totalAmountContributed}"></td>
+        <td th:unless="${currentUserFlag} == false"><a th:href="@{'/gift/contributedBy/'+ ${giftAndContibutionAmount.gift.id}}" th:text="${'$ ' + giftAndContibutionAmount.totalAmountContributed}"></a></td>
+        <td><a  th:href="@{'/gift/contribute/'+ ${giftAndContibutionAmount.gift.id}}" th:text="Contribute"></a></td>
+        <td th:text="${giftAndContibutionAmount.gift.date}"></td>
+        <td th:unless="${currentUserFlag} == false"><a th:href="@{'/gift/edit/'+ ${giftAndContibutionAmount.gift.id} +'/userId/'+${wishListUserId}}" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a></td>
+        <td th:unless="${currentUserFlag} == false"><a  th:href="@{'/gift/delete/'+ ${giftAndContibutionAmount.gift.id} +'/userId/'+${wishListUserId}}"  data-toggle="tooltip" title="Delete"><i class="glyphicon glyphicon-trash"></i></a></td>-->
+    </tr>
+
+</table>
+
+</body>
+</html>

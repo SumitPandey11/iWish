@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<nav th:replace="fragments :: login-navigation"></nav>
+<h1 th:text="${title}">Default Title</h1>
+
+<table class="table">
+
+    <tr>
+        <th>Title</th>
+        <th>Occasion</th>
+        <th>Date</th>
+        <th>Location</th>
+    </tr>
+
+    <tr>
+        <td th:text="${event.title}"></td>
+        <td th:text="${event.occasion}"></td>
+        <td th:text="${event.date}"></td>
+        <td th:text="${event.location}"></td>
+    </tr>
+
+</table>
+
+<form method="post" style="max-width:600px;" action="/event/sendmail" th:object="${invitationEmail}">
+    <div class="form-group">
+        <label th:for="email">Email</label>
+        <input class="form-control"  type="email" name="email"/>
+    </div>
+    <div class="form-group">
+        <label th:for="message">Invitation message</label>
+        <input class="form-control" name="message"/>
+    </div>
+    <input type="hidden" th:value="${event.title}" name="title"/>
+    <input type="hidden" th:value="${event.occasion}" name="occasion"/>
+    <input type="hidden" th:value="${event.date}" name="date"/>
+    <input type="hidden" th:value="${event.location}" name="location"/>
+    <input type="hidden" th:value="${eventId}" name="eventId"/>
+    <input type="submit" class="btn btn-info" value="Invite" />
+</form>
+
+
+</body>
+</html>
