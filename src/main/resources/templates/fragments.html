@@ -13,6 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/eventgift.js"></script>
     <!--You can Download the jQuery library from jQuery.com, Store locally and refer it as follows,
     I downloaded it locally, tested it , it worked perfectly. Now using the CDN so commenting it -->
     <!--    <script src="/js/jquery.js"></script>-->
@@ -27,18 +28,29 @@
 
 <nav th:fragment="login-navigation" class="navbar navbar-inverse">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="">iWish</a>
-        </div>
+
         <ul class="nav navbar-nav">
-            <li><a href="/user">Home</a></li>
-            <li><a href="/gift/add">Create Wish</a></li>
-            <li><a href="/gift/list">My WishList</a></li>
-            <li><a href="/event/add">Create Event</a></li>
-            <li><a href="/event/list">Events</a></li>
-            <li><a href="/gift/wishListSeeker">WishList Seeker</a></li>
-            <li><a href="/book/readinglist">My Reading List</a></li>
-            <li><a href="/book/booksearch">Book Search</a></li>
+            <li><a href="/user/home">Home</a></li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Wish<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/gift/add">Create a Wish</a></li>
+                    <li><a href="/gift/list">My WishList</a></li>
+                    <li><a href="/gift/wishListSeeker">Other's WishList</a></li>
+                </ul>
+            </li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Event<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/event/add">Create Event</a></li>
+                    <li><a href="/event/list">Events</a></li>
+                </ul>
+            </li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="/book/readinglist">My Reading List<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/book/readinglist">My Reading List</a></li>
+                    <li><a href="/book/booksearch">Book Search</a></li>
+                </ul>
+            </li>
+            <li><a href="/user/search">Search User</a></li>
         </ul>
     </div>
 </nav>
@@ -52,7 +64,7 @@
             <li><a href="/">Home</a></li>
             <li><a href="/user/login">Login</a></li>
             <li><a href="/user/add">Register</a></li>
-            <li><a href="/user/search">Search User</a></li>
+
         </ul>
     </div>
 </nav>

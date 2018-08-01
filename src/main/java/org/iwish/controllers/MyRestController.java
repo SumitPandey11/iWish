@@ -1,19 +1,14 @@
 package org.iwish.controllers;
 
 import org.iwish.models.BookReadingList;
+import org.iwish.models.Event;
 import org.iwish.models.Gift;
 import org.iwish.models.User;
-import org.iwish.models.data.BookReadingListDao;
-import org.iwish.models.data.ContributionDao;
-import org.iwish.models.data.GiftDao;
-import org.iwish.models.data.UserDao;
+import org.iwish.models.data.*;
 import org.iwish.models.form.UsersContributionsByGiftId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +35,9 @@ public class MyRestController {
 
     @Autowired
     GiftDao giftDao;
+
+    @Autowired
+    EventDao eventDao;
 
     @RequestMapping(value="user/{userName}",method = RequestMethod.GET)
     public User getUserByUserName(@PathVariable String userName){
@@ -121,6 +119,39 @@ public class MyRestController {
         }
         sender.send(message);
         return "Mail Sent Success!";
+    }
+
+
+    @RequestMapping(value = "/gift/{giftId}/addtoevent/{eventId}")
+    public String addGiftToEvent(@PathVariable int giftId, @PathVariable int eventId){
+
+        Event event = eventDao.findById(eventId).get();
+        List<Gift> gifts = event.getGifts();
+
+        Gift gift = giftDao.findById(giftId).get();
+
+        gifts.add(gift);
+
+        event.setGifts(gifts);
+        eventDao.save(event);
+
+        return "{ 'gift' : 'Success'}";
+    }
+
+    @RequestMapping(value = "/gift/{giftId}/deletefromevent/{eventId}")
+    public String deleteGiftFromEvent(@PathVariable int giftId, @PathVariable int eventId){
+
+        Event event = eventDao.findById(eventId).get();
+        List<Gift> gifts = event.getGifts();
+
+        Gift gift = giftDao.findById(giftId).get();
+
+        gifts.remove(gift);
+
+        event.setGifts(gifts);
+        eventDao.save(event);
+
+        return "{ 'gift' : 'Success'}";
     }
 
 }

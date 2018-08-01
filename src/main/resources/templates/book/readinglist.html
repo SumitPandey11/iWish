@@ -11,7 +11,7 @@
 
     <div class="elementList" style="padding-top: 10px;">
         <div class="left" style="width: 100%;" th:each="bookReadingList : ${bookReadingListList}" >
-            <div class="col-md-9" >
+            <div class="col-md-9 " >
                     <img  th:src="@{${bookReadingList.bookThumbNailImage}}" alt="Lights" width="6%" height="8%">
 
                     <a th:href="@{'/gift/list/'+ ${bookReadingList.isbn}}" th:text="${bookReadingList.bookTitle}"></a>
@@ -28,14 +28,12 @@
             <div class="col-md-1" >
                 <a th:href="@{'/book/delete/'+ ${bookReadingList.id}}" data-toggle="tooltip" title="Delete"> <i class="fa fa-trash w3-padding w3-xlarge w3-text-orange"></i></a>
              </div>
+
         </div>
-        <p></p>
     </div>
 
 
 </div>
-
-
 
 </body>
 </html>

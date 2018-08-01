@@ -3,9 +3,11 @@ package org.iwish.controllers;
 import org.iwish.mail.EmailServiceImpl;
 import org.iwish.models.Event;
 import org.iwish.models.Gift;
+import org.iwish.models.Guest;
 import org.iwish.models.User;
 import org.iwish.models.data.EventDao;
 import org.iwish.models.data.GiftDao;
+import org.iwish.models.data.GuestDao;
 import org.iwish.models.data.UserDao;
 import org.iwish.models.form.InvitationEmail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class EventController {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private GuestDao guestDao;
 
     @Autowired
     public EmailServiceImpl emailService;
@@ -84,8 +89,12 @@ public class EventController {
             event = _event.get();
         }
 
+        //retrive all invited guestes for this eventId
+        List<Guest> guests = guestDao.findGuestByEvent_Id(eventId);
+
         model.addAttribute("event",event);
         model.addAttribute("eventId",eventId);
+        model.addAttribute("guests",guests);
         model.addAttribute("title","Invite");
 
         return "event/invite";
@@ -93,14 +102,31 @@ public class EventController {
 
 
     @RequestMapping(value="sendmail",method = RequestMethod.POST)
-    public String sendEmail(@SessionAttribute("user") User user, @ModelAttribute @Valid Event event, @RequestParam("email") String email, @RequestParam("message") String message,@RequestParam("eventId") String eventId, Model model){
+    public String sendEmail(@SessionAttribute("user") User user, @ModelAttribute @Valid Event event, @RequestParam("email") String email, @RequestParam("message") String message,@RequestParam("eventId") int eventId, Model model){
 
-        emailService.sendSimpleMessage(email,
-                "Invitation", message);
+        //TODO: umcomment this for email to work
+        emailService.sendSimpleMessage(email,"Invitation", message);
+
+        //Add the guest to Guest table with event id.
+        Guest guest = new Guest();
+        guest.setGuestEmail(email);
+
+        Optional<Event> _event = eventDao.findById(eventId);
+        if(_event.isPresent()){
+            event = _event.get();
+        }
+
+        guest.setEvent(event);
+        guestDao.save(guest);
+
+
+        //retrive all invited guestes for this eventId
+        List<Guest> guests = guestDao.findGuestByEvent_Id(eventId);
 
 
         model.addAttribute("event",event);
         model.addAttribute("eventId",eventId);
+        model.addAttribute("guests",guests);
         model.addAttribute("title", "Invitation Sent  to  " + email);
         return "event/invite";
     }

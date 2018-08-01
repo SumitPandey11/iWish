@@ -8,10 +8,10 @@
    If you have 'user' entity with embedded 'name' entity in order to access fields of 'user' entity and print them if 'name'
     '?' on user is checkig if this is not null then access name. Otherwise it will pront blank. -->
 <!-- Following user objet is set in the session in the user controller-->
-<h1 th:text="${'Welcome ' + user?.name}">Default Title</h1>
 
 
-<div class="container-fluid bg-3 " >
+
+<!--<div class="container-fluid bg-3 " >
    <h3>Your Current Location</h3><br>
 
    <div class="row">
@@ -20,7 +20,63 @@
          <div id="animal-info" class="form-group"></div>
       </div>
    </div>
+</div>-->
+
+
+<div class="container-fluid text-center">
+    <div class="row content">
+        <div class="col-sm-2 sidenav text-left">
+            <p><a href="/gift/add">Create a Wish</a></p>
+            <p><a href="/gift/list">My WishList</a></p>
+            <p><a href="/gift/wishListSeeker">Other's WishList</a></p>
+            <p><a href="/event/add">Create Event</a></p>
+            <p><a href="/event/list">Events</a></p>
+            <p><a href="/book/readinglist">My Reading List</a></p>
+            <p><a href="/book/booksearch">Book Search</a></p>
+            <p><a href="/user/search">Search User</a></p>
+        </div>
+        <div class="col-sm-8 text-left">
+            <h1 th:text="${'Welcome ' + user?.name}">Default Title</h1>
+            <p>
+                I recently organized the 10th Birthday party of my Kid. He invited eighteen friends to celebrate with him. Everyone bought a gift for him, but he was not content with any. He was looking for a gaming console, and it’s obvious that this is not expected to be a gift from his friends as it would be too expensive for one person to buy. Then I realized that the amount of each gift was an average of 20 dollars, and all his gifts together were worth around 360 dollars. With this amount, he could buy a gaming console and a game!
+
+                Then I thought what if his friends could know about his wish for the gaming console and share a small amount of money towards the gaming console. So, this idea encouraged me to build a web application that will provide a platform for Kids to publish their wish list; Invite friends, Invitee (friends) can see the wish list and share their gift as a small amount of money to fulfill the wish.
+            </p>
+            <hr>
+            <h3>Technologies</h3>
+            <p>
+            <ul>
+                <li>Java 8</li>
+                <li>Spring boot 2.0</li>
+                <li>JPA</li>
+                <li>Hibenate 5.0</li>
+                <li>RESTful Web Services</li>
+                <li>javax.mail and Google SMPT</li>
+                <li>Thymeleaf</li>
+                <li>Java Script</li>
+                <li>jQuey</li>
+                <li>AJAX</li>
+                <li>BootStrap 3</li>
+                <li>JSON</li>
+                <li>MySQL</li>
+                <li>HTML</li>
+                <li>CSS</li>
+            </ul>
+
+
+            </p>
+        </div>
+        <div class="col-sm-2 sidenav">
+            <div class="well">
+                <p>Sumit Pandey</p>
+            </div>
+            <div class="well">
+                <p>LC101 Launchcode (2018)</p>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 </body>
 </html>

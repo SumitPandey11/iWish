@@ -13,19 +13,21 @@
         <th>Title</th>
         <th>Occasion</th>
         <th>Date</th>
+        <th th:if="${ event.time != '00:00:00' }">Time</th>
         <th>Location</th>
     </tr>
 
     <tr>
         <td th:text="${event.title}"></td>
         <td th:text="${event.occasion}"></td>
-        <td th:text="${event.date}"></td>
+        <td th:text="${#calendars.format(event.date,'dd MMMM yyyy')} "></td>
+        <td th:if="${ event.time != '00:00:00'}" th:text="${event.time}"></td>
         <td th:text="${event.location}"></td>
     </tr>
 
 </table>
 
-<form method="post" style="max-width:600px;" action="/event/sendmail" th:object="${invitationEmail}">
+<form method="post"  action="/event/sendmail" th:object="${invitationEmail}" class="well">
     <div class="form-group">
         <label th:for="email">Email</label>
         <input class="form-control"  type="email" name="email"/>
@@ -41,6 +43,16 @@
     <input type="hidden" th:value="${eventId}" name="eventId"/>
     <input type="submit" class="btn btn-info" value="Invite" />
 </form>
+
+
+<!--if guests not null and guest.size is not zero then show the fillowing table-->
+<div th:if="${guests} and ${guests.size()}" class="well">
+    <p>Following guests has already been invited </p>
+    <ul>
+    <li th:each="guest : ${guests}" th:text="${guest.guestEmail}">
+    </li>
+    </ul>
+</div>
 
 
 </body>

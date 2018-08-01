@@ -8,10 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -90,6 +87,12 @@ public class UserContorller {
 
        userDao.save(user);
        model.addAttribute("user", user);
+        return "user/index";
+    }
+
+    @RequestMapping(value = "home",method = RequestMethod.GET)
+    public String userHomePage(@SessionAttribute("user") User currentUserInSession, Model model){
+        model.addAttribute("user",currentUserInSession);
         return "user/index";
     }
 }

@@ -1,9 +1,11 @@
 package org.iwish.controllers;
 
 import org.iwish.models.Contribution;
+import org.iwish.models.Event;
 import org.iwish.models.Gift;
 import org.iwish.models.User;
 import org.iwish.models.data.ContributionDao;
+import org.iwish.models.data.EventDao;
 import org.iwish.models.data.GiftDao;
 import org.iwish.models.data.UserDao;
 import org.iwish.models.form.GiftAndContibutionAmount;
@@ -37,6 +39,9 @@ public class GiftController {
 
     @Autowired
     private ContributionDao contributionDao;
+
+    @Autowired
+    private EventDao eventDao;
 
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="add",method = RequestMethod.GET)
@@ -110,7 +115,7 @@ public class GiftController {
        Display the Wishlist of user, get the UserId from Pathvariable
     */
     //@PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(value = "list/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = {"list/{userId}"}, method = RequestMethod.GET)
     public String listWishListByUserId( @SessionAttribute("user") User currentUserInSession, Model model, @PathVariable int userId){
         List<Gift> gifts = giftDao.findByUser_Id(userId);
         String username = userDao.findById(userId).get().getName();
@@ -143,6 +148,73 @@ public class GiftController {
         return "gift/list";
     }
 
+
+    @RequestMapping(value = {"list/{userId}/event/{eventId}"}, method = RequestMethod.GET)
+    public String listWishListByUserIdForEvent( @SessionAttribute("user") User currentUserInSession, Model model, @PathVariable int userId,@PathVariable int eventId){
+
+        //Get all the gift created by the user.
+        List<Gift> gifts = giftDao.findByUser_Id(userId);
+
+        String username = userDao.findById(userId).get().getName();
+
+        List<GiftAndContibutionAmount> giftAndContibutionAmountList = new ArrayList<>();
+
+        Optional<Event> _event= eventDao.findById(eventId);
+        String eventTitle = "";
+        List<Gift> giftsAttachedWithEvent = null;
+
+        if(_event.isPresent()){
+            Event event = _event.get();
+            eventTitle = event.getTitle();
+            giftsAttachedWithEvent =  event.getGifts();
+        }
+
+
+        for(Gift gift : gifts){
+
+            //Check if the giftsAttachedWithEvent is not null, & if 'gift' is there in the giftsAttachedWithEvent List.
+            //If 'gift' is there in the list that means this gift ia already associated with the 'Event'. So we need to pass a flag to the client end to let the
+            // client ends know that this Gift is associated with this Event.
+            boolean isAssociatedWithEvent = false;
+            if(giftsAttachedWithEvent != null){
+                if(giftsAttachedWithEvent.contains(gift)){
+                    isAssociatedWithEvent = true;
+                }
+            }
+
+            Optional<Double> totalContributionAmount = contributionDao.findContributionAmountByGift_Id(gift.getId());
+            double amount = 0;
+            if(totalContributionAmount.isPresent()) {
+                amount = totalContributionAmount.get();
+            }
+
+            giftAndContibutionAmountList.add(new GiftAndContibutionAmount(amount,gift,isAssociatedWithEvent));
+        }
+
+
+
+
+
+
+        /*
+        Use can see the Delete / Edit option for their own Gift list.
+        The Delete / Edit option will not available for othe usres Gift List
+         */
+        boolean currentUserFlag = false;
+        if(currentUserInSession.getId() == userId){
+            currentUserFlag = true;
+        }
+
+
+
+        model.addAttribute("giftAndContibutionAmountList", giftAndContibutionAmountList);
+        model.addAttribute("wishListUserId", userId );
+        model.addAttribute("eventId", eventId);
+        model.addAttribute("currentUserFlag", currentUserFlag );
+        model.addAttribute("title",  "Add/remove wish(s) to the event  '" + eventTitle +"' from " + StringUtils.capitalize(username) + "'s wish list. ");
+        return "gift/list";
+    }
+
     /*
         Display the Wishlist of user, get the UserId for current session
      */
@@ -152,6 +224,14 @@ public class GiftController {
         model.addAttribute("gifts", gifts);
         model.addAttribute("title", StringUtils.capitalize(user.getName()) + "'s wish list " );*/
         return "redirect:/gift/list/"+user.getId();
+    }
+
+    @RequestMapping(value = "addToEvent/{eventId}", method = RequestMethod.GET)
+    public String redirectToUserWishListWithEventId(@SessionAttribute("user") User user, Model model,@PathVariable int eventId){
+        /*List<Gift> gifts = giftDao.findByUser_Id(user.getId());
+        model.addAttribute("gifts", gifts);
+        model.addAttribute("title", StringUtils.capitalize(user.getName()) + "'s wish list " );*/
+        return "redirect:/gift/list/"+user.getId()+"/event/"+eventId;
     }
 
     @RequestMapping(value = "contribute/{giftId}", method = RequestMethod.GET)

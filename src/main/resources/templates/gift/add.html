@@ -4,9 +4,10 @@
 <body class="container">
 <nav th:replace="fragments :: login-navigation"></nav>
 <h1 th:text="${title}">Default Title</h1>
+<P class="text-primary">Add any Wish you can dream up, with occasion, description, price and target date</P>
 <form method="post" style="max-width:600px;" th:object="${gift}">
     <div class="form-group">
-        <label th:for="name">Gift Name</label>
+        <label th:for="name">My Wish</label>
         <input class="form-control" th:field="*{name}" />
         <span th:errors="*{name}" class="error"></span>
     </div>

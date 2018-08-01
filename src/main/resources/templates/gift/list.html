@@ -12,6 +12,9 @@
 <table class="table">
 
     <tr>
+        <!--this page is access from Event page and myWish list page. If this coming from event page then
+        request attribute should have an eventId other wise null-->
+        <th th:unless="${eventId == null }">Add / Remove</th>
         <th>Name</th>
         <th>Occasion</th>
         <th>Price</th>
@@ -24,6 +27,20 @@
     </tr>
 
     <tr th:each="giftAndContibutionAmount : ${giftAndContibutionAmountList}">
+        <!--this page is access from Event page and myWish list page. If this coming from event page then
+        request attribute should have an eventId other wise null-->
+        <td th:unless="${eventId } == null ">
+            <!--If the gift is not associated with event then giftAndContibutionAmount.isAssociatedWithAnEvent() will return 'false', thenthe addGiftToEvent block will be visible.
+            if giftAndContibutionAmount.isAssociatedWithAnEvent() will return 'true', then remove from evenet anchor block will be visible.-->
+            <a  th:style="${giftAndContibutionAmount.isAssociatedWithAnEvent()} ?  'display:none' : 'display:block'" th:id="@{'addGiftToEvent_btn_' + ${giftAndContibutionAmount.gift.id} +'_' + ${eventId} }" class="btn btn-info" data-toggle="tooltip" title="Add to Event" th:onclick="@{'addGiftToEvent(' + ${giftAndContibutionAmount.gift.id} +',' + ${eventId} +')' }" >
+                <i class="glyphicon glyphicon-plus"></i>
+            </a>
+            <!--This anchor tag will be visible if giftAndContibutionAmount.isAssociatedWithAnEvent() will return 'true', because it will se the style="display:none"
+            It will be visible once we call .show() on this element from javaScript-->
+            <a  th:style="${giftAndContibutionAmount.isAssociatedWithAnEvent()} ? 'display:block' : 'display:none'"  th:id="@{'deleteGiftFromEvent_btn_' + ${giftAndContibutionAmount.gift.id} +'_' + ${eventId} }" class="btn btn-info" data-toggle="tooltip" title="Remove from Event" th:onclick="@{'deleteGiftFromEvent(' + ${giftAndContibutionAmount.gift.id} +',' + ${eventId} +')' }" >
+                <i class="glyphicon glyphicon-remove"></i>
+            </a>
+        </td>
         <td th:text="${giftAndContibutionAmount.gift.name}"></td>
         <td th:text="${giftAndContibutionAmount.gift.occasion}"></td>
         <td th:text="${ '$ ' + giftAndContibutionAmount.gift.price}"></td>
@@ -32,7 +49,7 @@
         <td><a  th:href="@{'/gift/contribute/'+ ${giftAndContibutionAmount.gift.id}}" th:text="Contribute"></a></td>
         <td th:text="${giftAndContibutionAmount.gift.date}"></td>
         <td th:unless="${currentUserFlag} == false"><a th:href="@{'/gift/edit/'+ ${giftAndContibutionAmount.gift.id} +'/userId/'+${wishListUserId}}" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a></td>
-        <td th:unless="${currentUserFlag} == false"><a  th:href="@{'/gift/delete/'+ ${giftAndContibutionAmount.gift.id} +'/userId/'+${wishListUserId}}"  data-toggle="tooltip" title="Delete"><i class="glyphicon glyphicon-trash"></i></a></td>
+        <td th:unless="${currentUserFlag} == false"><a  th:href="@{'/gift/delete/'+ ${giftAndContibutionAmount.gift.id} +'/userId/'+${wishListUserId}}"  data-toggle="tooltip" title="Delete from wishlist"><i class="glyphicon glyphicon-trash"></i></a></td>
     </tr>
 
 </table>
