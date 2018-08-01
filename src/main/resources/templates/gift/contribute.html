@@ -4,12 +4,9 @@
 
 <body class="container">
 <nav th:replace="fragments :: login-navigation"></nav>
-<h1>Contribution</h1>
 
+    <h1 th:text="${title}" style="margin-top:80px">Successfully created your wish List</h1>
 
-<div>
-    <h3 th:text="${title}">Successfully created your wish List</h3>
-</div>
 
 <form method="post" style="max-width:600px;" action="/gift/contribute" th:object="${gift}">
 
@@ -40,10 +37,9 @@
         </div>
     </div>
     <input type="hidden" name="giftId" th:value="*{id}"/>
-    <input type="submit" class="btn btn-info" value="Share your Gift" />
+    <input type="submit" class="btn btn-info" value="Share your contribution" />
 
 </form>
-
 
 
 </body>

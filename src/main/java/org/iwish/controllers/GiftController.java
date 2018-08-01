@@ -46,7 +46,7 @@ public class GiftController {
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="add",method = RequestMethod.GET)
     public String displayCreateNewGift(Model model){
-        model.addAttribute("title","Create New Gift");
+        model.addAttribute("title","Create your wish");
         model.addAttribute(new Gift());
         return "gift/add";
     }
@@ -252,7 +252,7 @@ public class GiftController {
         }
         model.addAttribute("gift", gift);
         model.addAttribute("totalAmountContributed", amount);
-        model.addAttribute("title", "Gift... " );
+        model.addAttribute("title", "Contribute for " + gift.getName() );
         return "gift/contribute";
     }
 
@@ -280,7 +280,7 @@ public class GiftController {
         Iterable<User> giftSeekers = userDao.findAllById(giftSeekersIds);
 
         model.addAttribute("giftSeekers", giftSeekers);
-        model.addAttribute("title", "Wish List Seeker" );
+        model.addAttribute("title", "User's Wish List" );
         return "gift/wishListSeeker";
     }
 
