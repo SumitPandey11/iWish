@@ -130,7 +130,15 @@ public class GiftController {
                 amount = totalContributionAmount.get();
             }
 
-            giftAndContibutionAmountList.add(new GiftAndContibutionAmount(amount,gift));
+
+            //Checking if this Gift is associated with any Event
+            List<Event> events = gift.getEvents();
+            boolean isAssociatedWithAnyEvent = false;
+            if(events != null && !events.isEmpty()){
+                isAssociatedWithAnyEvent = true;
+            }
+
+            giftAndContibutionAmountList.add(new GiftAndContibutionAmount(amount,gift,false,isAssociatedWithAnyEvent));
         }
 
         /*
@@ -159,15 +167,20 @@ public class GiftController {
 
         List<GiftAndContibutionAmount> giftAndContibutionAmountList = new ArrayList<>();
 
+        /*
+            Find Gifts associated with the an EventId,
+            Add all the Gifts associated with EventId in giftsAttachedWithEvent List
+         */
         Optional<Event> _event= eventDao.findById(eventId);
         String eventTitle = "";
-        List<Gift> giftsAttachedWithEvent = null;
+        List<Gift> giftsAttachedWithCurrentEvent = null;
 
         if(_event.isPresent()){
             Event event = _event.get();
             eventTitle = event.getTitle();
-            giftsAttachedWithEvent =  event.getGifts();
+            giftsAttachedWithCurrentEvent =  event.getGifts();
         }
+
 
 
         for(Gift gift : gifts){
@@ -175,10 +188,10 @@ public class GiftController {
             //Check if the giftsAttachedWithEvent is not null, & if 'gift' is there in the giftsAttachedWithEvent List.
             //If 'gift' is there in the list that means this gift ia already associated with the 'Event'. So we need to pass a flag to the client end to let the
             // client ends know that this Gift is associated with this Event.
-            boolean isAssociatedWithEvent = false;
-            if(giftsAttachedWithEvent != null){
-                if(giftsAttachedWithEvent.contains(gift)){
-                    isAssociatedWithEvent = true;
+            boolean isAssociatedWithCurrentEvent = false;
+            if(giftsAttachedWithCurrentEvent != null){
+                if(giftsAttachedWithCurrentEvent.contains(gift)){
+                    isAssociatedWithCurrentEvent = true;
                 }
             }
 
@@ -188,7 +201,13 @@ public class GiftController {
                 amount = totalContributionAmount.get();
             }
 
-            giftAndContibutionAmountList.add(new GiftAndContibutionAmount(amount,gift,isAssociatedWithEvent));
+            List<Event> events = gift.getEvents();
+            boolean isAssociatedWithAnyEvent = false;
+            if(events != null && !events.isEmpty()){
+                isAssociatedWithAnyEvent = true;
+            }
+
+            giftAndContibutionAmountList.add(new GiftAndContibutionAmount(amount,gift,isAssociatedWithCurrentEvent,isAssociatedWithAnyEvent));
         }
 
 
@@ -314,6 +333,70 @@ public class GiftController {
         return "gift/contributedByList";
     }
 
+
+    @RequestMapping(value = "detail/{giftId}", method = RequestMethod.GET)
+    public String getGiftDetail(Model model,@PathVariable int giftId){
+        Optional<Gift> _gift = giftDao.findById(giftId);
+        Gift gift=null;
+        if(_gift.isPresent()){
+            gift = _gift.get();
+        }
+
+
+        //START : Get the list of users who all contributed for this Gift .
+        List<Integer> usersIds = contributionDao.findUsersContributedByGift_Id(giftId);
+        Iterable<User> contributors = new ArrayList<>();
+
+        List<Object[]> usersContributionsByGiftIds = contributionDao.findContributionAmountUsernameEmailByGift_Id(giftId);
+
+        List<UsersContributionsByGiftId> usersContributionsByGiftIdList = new ArrayList<>();
+
+        for(Object[] obj : usersContributionsByGiftIds){
+
+            //Check the findContributionAmountUsernameEmailByGift_Id @Query
+            // the query is returning the column in this seqesnce -- >  contribution.totalamount, contribution.gift_id, user.name , user.email
+            //So we are retriving the data in same ourder and setting in the constructor
+            usersContributionsByGiftIdList.add(new UsersContributionsByGiftId(Double.valueOf(String.valueOf(obj[0])),Integer.valueOf(String.valueOf(obj[1])),String.valueOf(obj[2]),String.valueOf(obj[3])));
+        }
+
+        double amount = 0;
+        model.addAttribute("totalContributionAmount", amount );
+        if(!usersIds.isEmpty()){
+            contributors = userDao.findAllById(usersIds);
+            model.addAttribute("usersContributionsByGiftIdList",usersContributionsByGiftIdList);
+            model.addAttribute("contributedby", "Contributed by" );
+            model.addAttribute("giftId", giftId );
+
+            //START - get the total contribution amount of Gift by giftId
+            Optional<Double> totalContributionAmount = contributionDao.findContributionAmountByGift_Id(gift.getId());
+
+            if(totalContributionAmount.isPresent()) {
+                amount = totalContributionAmount.get();
+            }
+            model.addAttribute("totalContributionAmount", amount );
+            //END - get the total contribution amount of Gift by giftId
+
+        }else{
+            model.addAttribute("usersContributionsByGiftIdList",usersContributionsByGiftIdList);
+            model.addAttribute("contributedby", "Sorry No Contribution. " );
+        }
+
+        //END : Get the list of users who all contributed for this Gift .
+
+
+        List<Event> events = gift.getEvents();
+
+        String associatedEventsTitle = "No Event Associated";
+
+        if(events != null && !events.isEmpty()){
+            model.addAttribute("events", events);
+            associatedEventsTitle = "Associated Event(s)";
+        }
+        model.addAttribute("associatedEventsTitle", associatedEventsTitle );
+        model.addAttribute("gift",gift);
+        model.addAttribute("title", "My Wish :  " + gift.getName());
+        return "gift/detail";
+    }
 
 }
 

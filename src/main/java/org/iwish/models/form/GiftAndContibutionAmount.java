@@ -6,19 +6,26 @@ public class GiftAndContibutionAmount{
 
     private Gift gift;
     private double totalAmountContributed;
-    private boolean isAssociatedWithAnEvent;
+    private boolean isAssociatedWithCurrentEvent;
+    private boolean isAssociatedWithAnyEvent;
 
     public GiftAndContibutionAmount(double totaAmountContributed, Gift gift) {
         this.gift = gift;
         this.totalAmountContributed = totaAmountContributed;
     }
 
-    public GiftAndContibutionAmount(double totalAmountContributed,Gift gift,  boolean isAssociatedWithAnEvent) {
+    public GiftAndContibutionAmount(double totalAmountContributed,Gift gift, boolean isAssociatedWithAnEvent) {
         this.gift = gift;
         this.totalAmountContributed = totalAmountContributed;
-        this.isAssociatedWithAnEvent = isAssociatedWithAnEvent;
+        this.isAssociatedWithCurrentEvent = isAssociatedWithAnEvent;
     }
 
+    public GiftAndContibutionAmount(double totalAmountContributed, Gift gift, boolean isAssociatedWithAnEvent, boolean isAssociatedWithAnyEvent) {
+        this.gift = gift;
+        this.totalAmountContributed = totalAmountContributed;
+        this.isAssociatedWithCurrentEvent = isAssociatedWithAnEvent;
+        this.isAssociatedWithAnyEvent = isAssociatedWithAnyEvent;
+    }
 
     public Gift getGift() {
         return gift;
@@ -36,12 +43,20 @@ public class GiftAndContibutionAmount{
         this.totalAmountContributed = totalAmountContributed;
     }
 
-    public boolean isAssociatedWithAnEvent() {
-        return isAssociatedWithAnEvent;
+    public boolean isAssociatedWithCurrentEvent() {
+        return isAssociatedWithCurrentEvent;
     }
 
-    public void setAssociatedWithAnEvent(boolean associatedWithAnEvent) {
-        isAssociatedWithAnEvent = associatedWithAnEvent;
+    public void setAssociatedWithCurrentEvent(boolean associatedWithAnEvent) {
+        isAssociatedWithCurrentEvent = associatedWithAnEvent;
+    }
+
+    public boolean isAssociatedWithAnyEvent() {
+        return isAssociatedWithAnyEvent;
+    }
+
+    public void setAssociatedWithAnyEvent(boolean associatedWithAnyEvent) {
+        isAssociatedWithAnyEvent = associatedWithAnyEvent;
     }
 
 }

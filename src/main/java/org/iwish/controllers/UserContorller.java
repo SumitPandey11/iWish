@@ -95,4 +95,11 @@ public class UserContorller {
         model.addAttribute("user",currentUserInSession);
         return "user/index";
     }
+
+    @RequestMapping(value = "logout",method = RequestMethod.GET)
+    public String logOut(@SessionAttribute("user") User currentUserInSession, Model model){
+        currentUserInSession = null;
+        model.addAttribute("user",currentUserInSession);
+        return "index";
+    }
 }

@@ -5,7 +5,7 @@
 <div class="container">
 
 <nav th:replace="fragments :: login-navigation"></nav>
-<h1 th:text="${title}" style="margin-top:80px" style="margin-top:80px">Wish List Seeker</h1>
+<h1 th:text="${title}" style="margin-top:80px" >Wish List Seeker</h1>
     <div>
 
         <table class="table table-striped">
@@ -35,7 +35,7 @@
     </div>
     <div id="piechart">
 
-        <script type="text/javascript">
+    <script type="text/javascript">
        function createBarChart(giftId){
 
         // Hide the Button "BtnPieChart"
@@ -68,17 +68,17 @@
 
 
                 $.each(data, function(key, val){
-                    dataarray.push([key, val]); // Add a row with a string and a date value.
+                    dataarray.push([key, val]); // Add a row with a key and value. returend JSON is like this {"Remaining":380.0,"ishaanpandey":20.0}
                 });
                 console.log(dataarray);
-                var data = google.visualization.arrayToDataTable(dataarray);
+                var dataForGoogleChart = google.visualization.arrayToDataTable(dataarray);
 
                   // Optional; add a title and set the width and height of the chart
                   var options = {'title':'Contribution Distribution', 'width':550, 'height':400,'is3D': true};
 
                   // Display the chart inside the <div> element with id="piechart"
                   var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-                  chart.draw(data, options);
+                  chart.draw(dataForGoogleChart, options);
             });
         }
       }

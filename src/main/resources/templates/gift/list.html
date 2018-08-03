@@ -22,6 +22,7 @@
         <th th:unless="${currentUserFlag} == false">Contribution</th>
         <th>Contribute</th>
         <th>Target Date</th>
+        <th>Associated Event</th>
         <th th:unless="${currentUserFlag} == false">Edit</th>
         <th th:unless="${currentUserFlag} == false">Delete</th>
     </tr>
@@ -32,27 +33,61 @@
         <td th:unless="${eventId } == null ">
             <!--If the gift is not associated with event then giftAndContibutionAmount.isAssociatedWithAnEvent() will return 'false', thenthe addGiftToEvent block will be visible.
             if giftAndContibutionAmount.isAssociatedWithAnEvent() will return 'true', then remove from evenet anchor block will be visible.-->
-            <a  th:style="${giftAndContibutionAmount.isAssociatedWithAnEvent()} ?  'display:none' : 'display:block'" th:id="@{'addGiftToEvent_btn_' + ${giftAndContibutionAmount.gift.id} +'_' + ${eventId} }" class="btn btn-info" data-toggle="tooltip" title="Add to Event" th:onclick="@{'addGiftToEvent(' + ${giftAndContibutionAmount.gift.id} +',' + ${eventId} +')' }" >
+            <a  th:style="${giftAndContibutionAmount.isAssociatedWithCurrentEvent()} ?  'display:none' : 'display:block'" th:id="@{'addGiftToEvent_btn_' + ${giftAndContibutionAmount.gift.id} +'_' + ${eventId} }" class="btn btn-info" data-toggle="tooltip" title="Add to Event" th:onclick="@{'addGiftToEvent(' + ${giftAndContibutionAmount.gift.id} +',' + ${eventId} +')' }" >
                 <i class="glyphicon glyphicon-plus"></i>
             </a>
             <!--This anchor tag will be visible if giftAndContibutionAmount.isAssociatedWithAnEvent() will return 'true', because it will se the style="display:none"
             It will be visible once we call .show() on this element from javaScript-->
-            <a  th:style="${giftAndContibutionAmount.isAssociatedWithAnEvent()} ? 'display:block' : 'display:none'"  th:id="@{'deleteGiftFromEvent_btn_' + ${giftAndContibutionAmount.gift.id} +'_' + ${eventId} }" class="btn btn-info" data-toggle="tooltip" title="Remove from Event" th:onclick="@{'deleteGiftFromEvent(' + ${giftAndContibutionAmount.gift.id} +',' + ${eventId} +')' }" >
+            <a  th:style="${giftAndContibutionAmount.isAssociatedWithCurrentEvent()} ? 'display:block' : 'display:none'"  th:id="@{'deleteGiftFromEvent_btn_' + ${giftAndContibutionAmount.gift.id} +'_' + ${eventId} }" class="btn btn-info" data-toggle="tooltip" title="Remove from Event" th:onclick="@{'deleteGiftFromEvent(' + ${giftAndContibutionAmount.gift.id} +',' + ${eventId} +')' }" >
                 <i class="glyphicon glyphicon-remove"></i>
             </a>
         </td>
-        <td th:text="${giftAndContibutionAmount.gift.name}"></td>
+        <!--<td th:text="${giftAndContibutionAmount.gift.name}"></td>-->
+        <td><a  th:href="@{'/gift/detail/'+ ${giftAndContibutionAmount.gift.id}}" th:text="${giftAndContibutionAmount.gift.name}"></a></td>
+
         <td th:text="${giftAndContibutionAmount.gift.occasion}"></td>
         <td th:text="${ '$ ' + giftAndContibutionAmount.gift.price}"></td>
         <td th:unless="${currentUserFlag} == true" th:text="${giftAndContibutionAmount.totalAmountContributed}"></td>
         <td th:unless="${currentUserFlag} == false"><a th:href="@{'/gift/contributedBy/'+ ${giftAndContibutionAmount.gift.id}}" th:text="${'$ ' + giftAndContibutionAmount.totalAmountContributed}"></a></td>
         <td><a  th:href="@{'/gift/contribute/'+ ${giftAndContibutionAmount.gift.id}}" th:text="Contribute"></a></td>
         <td th:text="${giftAndContibutionAmount.gift.date}"></td>
+        <td >
+            <a th:href="@{'/gift/detail/'+ ${giftAndContibutionAmount.gift.id}}" th:style="${giftAndContibutionAmount.isAssociatedWithAnyEvent()} ?  'display:block' : 'display:none'" th:id="@{'addGiftToEvent_btn_' + ${giftAndContibutionAmount.gift.id} +'_' + ${eventId} }"  data-toggle="tooltip" title="Associated Event"  >
+
+                    <i class="glyphicon glyphicon-list" data-toggle="modal" data-target="#basicExampleModal"></i>
+
+            </a>
+        </td>
         <td th:unless="${currentUserFlag} == false"><a th:href="@{'/gift/edit/'+ ${giftAndContibutionAmount.gift.id} +'/userId/'+${wishListUserId}}" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a></td>
         <td th:unless="${currentUserFlag} == false"><a  th:href="@{'/gift/delete/'+ ${giftAndContibutionAmount.gift.id} +'/userId/'+${wishListUserId}}"  data-toggle="tooltip" title="Delete from wishlist"><i class="glyphicon glyphicon-trash"></i></a></td>
     </tr>
 
 </table>
+
+<nav th:fragment="navigation">
+    <a href="/gift/add">Create a Wish</a>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Associated Event(s)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 </body>
 </html>

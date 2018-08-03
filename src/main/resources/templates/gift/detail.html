@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+<nav th:replace="fragments :: login-navigation"></nav>
+<h1 th:text="${title}" style="margin-top:80px">Default Title</h1>
+
+<div class="container-fluid">
+    <div class="row content">
+
+        <br>
+
+        <div class="col-sm-12">
+            <div class="well">
+                <h4>Occasion</h4>
+                <p th:text="${gift.occasion}">Some text..</p>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="well">
+                        <h4>Price</h4>
+                        <p th:text="${ '$ ' + gift.price}"></p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="well">
+                        <h4>Total contribution received</h4>
+                        <p th:text="${ '$ ' + totalContributionAmount}"></p>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="well">
+                        <h4>Target Date</h4>
+                        <p th:text="${gift.date}"></p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h4 th:text="${contributedby}"></h4>
+                        <ul>
+                            <li th:each="contributor : ${usersContributionsByGiftIdList}" th:text="${contributor.name + ' : ' + contributor.email + ' : $ ' + contributor.totalamount}">
+                        </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="well">
+                        <h4 th:text="${associatedEventsTitle}">Associated Event(s)</h4>
+                        <ul>
+                            <li th:each="event : ${events}" th:text="${event.title + ' : ' + event.id }"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-info" onclick="goBack()"><i class="fa fa-close"></i> Close</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
