@@ -26,8 +26,9 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="well">
-                        <label>Total contribution received</label>
+                        <label>Total contribution received </label> <button class="btn btn-info" th:onclick="@{'createBarChart(' + ${giftId} +')' }" data-toggle="tooltip" id="BtnPieChart"><i class="fa fa-pie-chart" style="font-size:18px;color:red"></i> </button>
                         <p th:text="${ '$ ' + totalContributionAmount}"></p>
+
                     </div>
                 </div>
                 <div class="col-sm-4">
@@ -39,7 +40,6 @@
 
             </div>
             <div class="row">
-
                 <div class="col-sm-6">
                     <div class="well">
                         <label th:text="${contributedby}"></label>
@@ -58,8 +58,67 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-info" onclick="goBack()"><i class="fa fa-angle-double-left"></i> Back</button>
-        </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div >
+                        <button class="btn btn-info" onclick="goBack()"><i class="fa fa-angle-double-left"></i> Back</button>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div id="piechart">
+                        <script type="text/javascript">
+                       function createBarChart(giftId){
+
+                        // Hide the Button "BtnPieChart"
+                        var x = document.getElementById("BtnPieChart");
+                            if (x.style.display === "none") {
+                                x.style.display = "block";
+                            } else {
+                                x.style.display = "none";
+                            }
+
+
+                        // Load google charts
+                        google.charts.load('current', {'packages':['corechart']});
+                        google.charts.setOnLoadCallback(drawChart);
+
+
+                        // Draw the chart and set the chart values
+
+                        var x = this.getElementById("giftId").value;
+
+                       // var giftId = 64;
+                        function drawChart() {
+
+
+                            var dataarray = [];
+                            var temparray = ['Name','Amount'];
+                            dataarray.push(temparray);
+
+                            $.getJSON("http://localhost:8080/api/contributedBy/"+giftId, function(data){
+
+
+                                $.each(data, function(key, val){
+                                    dataarray.push([key, val]); // Add a row with a key and value. returend JSON is like this {"Remaining":380.0,"ishaanpandey":20.0}
+                                });
+                                console.log(dataarray);
+                                var dataForGoogleChart = google.visualization.arrayToDataTable(dataarray);
+
+                                  // Optional; add a title and set the width and height of the chart
+                                  var options = {'title':'Contribution Distribution', 'width':550, 'height':400,'is3D': true};
+
+                                  // Display the chart inside the <div> element with id="piechart"
+                                  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                                  chart.draw(dataForGoogleChart, options);
+                            });
+                        }
+                      }
+                    </script>
+                    </div>
+                </div>
+            </div>
+
     </div>
 </div>
 
