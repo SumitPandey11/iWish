@@ -6,10 +6,15 @@
 
 <nav th:replace="fragments :: login-navigation"></nav>
 <h1 th:text="${title}" style="margin-top:80px">Default Title</h1>
-<p th:unless="${events} and ${events.size()}">No events :(</p>
+<p th:unless="${events} and ${events.size()}">No Event? <a href="/event/add">Create one!</a></p>
+<P th:if="${events} and ${events.size()}" class="text-primary">You can send invitation email to your guest for an event and you can also add wish(s) to your event.
+</P>
 
+<div th:unless="${events} and ${events.size()}">
+    <P class="text-primary">After you create an event you can send invitation email to your guest for the event from the event list page. You can also able to add wish(s) to your event from event list page.</P>
+</div>
 
-<table class="table">
+<table class="table" th:if="${events} and ${events.size()}">
 
     <tr>
         <th>Title</th>

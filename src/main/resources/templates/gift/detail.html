@@ -13,26 +13,26 @@
 
         <div class="col-sm-12">
             <div class="well">
-                <h4>Occasion</h4>
+                <label>Occasion</label>
                 <p th:text="${gift.occasion}">Some text..</p>
 
             </div>
             <div class="row">
                 <div class="col-sm-4">
                     <div class="well">
-                        <h4>Price</h4>
+                        <label>Price</label>
                         <p th:text="${ '$ ' + gift.price}"></p>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="well">
-                        <h4>Total contribution received</h4>
+                        <label>Total contribution received</label>
                         <p th:text="${ '$ ' + totalContributionAmount}"></p>
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="well">
-                        <h4>Target Date</h4>
+                        <label>Target Date</label>
                         <p th:text="${gift.date}"></p>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
 
                 <div class="col-sm-6">
                     <div class="well">
-                        <h4 th:text="${contributedby}"></h4>
+                        <label th:text="${contributedby}"></label>
                         <ul>
                             <li th:each="contributor : ${usersContributionsByGiftIdList}" th:text="${contributor.name + ' : ' + contributor.email + ' : $ ' + contributor.totalamount}">
                         </li>
@@ -51,14 +51,14 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="well">
-                        <h4 th:text="${associatedEventsTitle}">Associated Event(s)</h4>
+                        <label th:text="${associatedEventsTitle}">Associated Event(s)</label>
                         <ul>
                             <li th:each="event : ${events}" th:text="${event.title + ' : ' + event.id }"></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <button class="btn btn-info" onclick="goBack()"><i class="fa fa-close"></i> Close</button>
+            <button class="btn btn-info" onclick="goBack()"><i class="fa fa-angle-double-left"></i> Back</button>
         </div>
     </div>
 </div>

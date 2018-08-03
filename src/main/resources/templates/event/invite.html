@@ -6,7 +6,7 @@
 
 <nav th:replace="fragments :: login-navigation"></nav>
 <h1 th:text="${title}" style="margin-top:80px">Default Title</h1>
-
+<P class="text-primary">Invite your guest to this event by sending them invitation email from here. You can <a href="/user/search">Search registered user email</a>. Although sending invitation is not restricted to registered user. You can invite non registerd user as well</P>
 <table class="table">
 
     <tr>
@@ -30,11 +30,11 @@
 <form method="post"  action="/event/sendmail" th:object="${invitationEmail}" class="well">
     <div class="form-group">
         <label th:for="email">Email</label>
-        <input class="form-control"  type="email" name="email"/>
+        <input class="form-control"  type="email" name="email" placeholder="email address of your guest"/>
     </div>
     <div class="form-group">
         <label th:for="message">Invitation message</label>
-        <input class="form-control" name="message"/>
+        <input class="form-control" name="message" placeholder="Invitation message"/>
     </div>
     <input type="hidden" th:value="${event.title}" name="title"/>
     <input type="hidden" th:value="${event.occasion}" name="occasion"/>
@@ -47,13 +47,13 @@
 
 <!--if guests not null and guest.size is not zero then show the fillowing table-->
 <div th:if="${guests} and ${guests.size()}" class="well">
-    <p>Following guests has already been invited </p>
+    <label>Following guests received the invitation email for this event.</label>
     <ul>
     <li th:each="guest : ${guests}" th:text="${guest.guestEmail}">
     </li>
     </ul>
 </div>
-
+<button class="btn btn-info" onclick="goBack()"><i class="fa fa-angle-double-left"></i> Back</button>
 
 </body>
 </html>

@@ -4,7 +4,7 @@
 
 <body class="container">
 <nav th:replace="fragments :: login-navigation"></nav>
-<h1 th:text="${title}" style="margin-top:80px">Default Title</h1>
+<h1 style="margin-top:80px">Successfully added this wish to your wish list</h1>
 
 
 <table class="table">
@@ -25,9 +25,9 @@
 
 </table>
 
-<!--<nav th:fragment="navigation">
-    <a href="/gift/add">Create a Wish</a>
-</nav>-->
+<nav th:fragment="navigation">
+    <a href="/gift/list">Check your wish list</a>
+</nav>
 
 </body>
 </html>

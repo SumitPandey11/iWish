@@ -6,7 +6,7 @@
 
 <h1 th:text="${title}" style="margin-top:80px">Default Title</h1>
 <P class="text-primary">Add any Wish you can dream up, with occasion, description, price and target date</P>
-<form method="post" style="max-width:600px;" th:object="${gift}">
+<form method="post" style="max-width:600px;" th:object="${gift}" action="/gift/add">
     <div class="form-group">
         <label th:for="name">My Wish is</label>
         <input class="form-control" th:field="*{name}" placeholder="wish"/>
@@ -30,8 +30,25 @@
         <input type="date" class=" form-control form_datetime" th:field="*{date}" />
         <span th:errors="*{date}" class="error"></span>
     </div>
-    <input type="submit" class="btn btn-info" value="Add to Wish List" />
-    <button class="btn btn-info" onclick="goBack()"><i class="fa fa-back"></i> Back</button>
+
+
+    <div class="row content">
+        <div class="row" align="center">
+
+            <div class="col-sm-6">
+                <div >
+                    <input type="submit" class="btn btn-info" value="Add this wish to your Wish List" />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div >
+                    <td  ><a class="btn btn-info" th:href="@{'/gift/list/'}" data-toggle="tooltip" title="Go to wish list">View your wish list</a></td>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </form>
 
 </body>

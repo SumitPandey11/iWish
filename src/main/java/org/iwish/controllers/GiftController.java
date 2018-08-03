@@ -1,13 +1,7 @@
 package org.iwish.controllers;
 
-import org.iwish.models.Contribution;
-import org.iwish.models.Event;
-import org.iwish.models.Gift;
-import org.iwish.models.User;
-import org.iwish.models.data.ContributionDao;
-import org.iwish.models.data.EventDao;
-import org.iwish.models.data.GiftDao;
-import org.iwish.models.data.UserDao;
+import org.iwish.models.*;
+import org.iwish.models.data.*;
 import org.iwish.models.form.GiftAndContibutionAmount;
 import org.iwish.models.form.UsersContributionsByGiftId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,11 +37,32 @@ public class GiftController {
     @Autowired
     private EventDao eventDao;
 
+    @Autowired
+    private BookReadingListDao bookReadingListDao;
+
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="add",method = RequestMethod.GET)
     public String displayCreateNewGift(Model model){
         model.addAttribute("title","Create your wish");
         model.addAttribute(new Gift());
+        return "gift/add";
+    }
+
+    @RequestMapping(value="add/book/{bookId}",method = RequestMethod.GET)
+    public String displayAddBook(Model model,@PathVariable int bookId){
+        Optional<BookReadingList> _bookReadingList = bookReadingListDao.findById(bookId);
+        BookReadingList bookReadingList = null;
+        String bookNameISBNAuthor ="";
+        if(_bookReadingList.isPresent()){
+            bookReadingList = _bookReadingList.get();
+            bookNameISBNAuthor = "Book Title : " + bookReadingList.getBookTitle() + ", ISBN :" + bookReadingList.getIsbn() ;
+
+        }
+        model.addAttribute("title","Create your wish");
+        Gift gift = new Gift();
+        gift.setName(bookNameISBNAuthor);
+        gift.setOccasion("This book is in my reading list");
+        model.addAttribute(gift);
         return "gift/add";
     }
 
@@ -70,7 +85,7 @@ public class GiftController {
         else{
             // TODO: Check if User not exists.
         }
-        model.addAttribute("title", "Successfully Created :  " + gift.getName());
+        model.addAttribute("title",  gift.getName() + " added to wish list");
         return "gift/index";
     }
 

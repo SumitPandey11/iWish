@@ -4,15 +4,17 @@
 <body class="container">
 <nav th:replace="fragments :: login-navigation"></nav>
 <h1 th:text="${title}" style="margin-top:80px">Default Title</h1>
+<P class="text-primary">Add this event to your event list. Then you can send invitation email to your guest for this event from event list.
+</P>
 <form method="post" style="max-width:600px;" th:object="${event}">
     <div class="form-group">
-        <label th:for="name">Event Title</label>
-        <input class="form-control" th:field="*{title}" />
+        <label th:for="name">Event</label>
+        <input class="form-control" th:field="*{title}" placeholder="Event name / title"/>
         <span th:errors="*{title}" class="error"></span>
     </div>
     <div class="form-group">
-        <label th:for="occasion">Occasion</label>
-        <input class="form-control" th:field="*{occasion}" />
+        <label th:for="occasion">Event Details</label>
+        <input class="form-control" th:field="*{occasion}" placeholder="Details about event"/>
         <span th:errors="*{occasion}" class="error"></span>
     </div>
     <div class="form-group">
@@ -23,18 +25,34 @@
 
     <!-- TODO: Getting error in storing time, need to fix this  -->
     <div class="form-group">
-        <label th:for="time">Event Time </label>
+        <label th:for="time">Event Time </label> (hh:mm AM/PM)
         <input type="time" class="form-control form_datetime" th:field="*{time}" />
         <span th:errors="*{time}" class="error"></span>
     </div>
 
     <div class="form-group">
         <label th:for="location">Event Location</label>
-        <input class="form-control" th:field="*{location}" />
+        <input class="form-control" th:field="*{location}" placeholder="Address where you are organizing this event"/>
         <span th:errors="*{location}" class="error"></span>
     </div>
 
-    <input type="submit" class="btn btn-info" value="Create event" />
+
+
+    <div class="row content">
+        <div class="row" >
+
+            <div class="col-sm-6">
+                <div align="right">
+                    <input type="submit" class="btn btn-info" value="Add this event to your event list" />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div >
+                    <td  ><a class="btn btn-info" th:href="@{'/event/list'}" data-toggle="tooltip" title="View all your events in the event list">View your event list</a></td>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 
 </body>

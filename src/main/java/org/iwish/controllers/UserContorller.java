@@ -31,7 +31,7 @@ public class UserContorller {
     @RequestMapping(value="login",method = RequestMethod.GET)
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String displayLogin(Model model){
-        model.addAttribute("title","Login");
+        model.addAttribute("title","Sign in");
         model.addAttribute(new User());
         return "user/login";
     }
