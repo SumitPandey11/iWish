@@ -1,6 +1,8 @@
 package org.iwish.controllers;
 
 import org.iwish.models.User;
+import org.iwish.models.data.EventDao;
+import org.iwish.models.data.GiftDao;
 import org.iwish.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +22,12 @@ public class UserContorller {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private GiftDao giftDao;
+
+    @Autowired
+    private EventDao eventDao;
 
     @RequestMapping(value="")
     //@PreAuthorize("hasRole('ROLE_USER')")
@@ -52,7 +60,7 @@ public class UserContorller {
                 model.addAttribute("title", "Welcome");
                 //Setting this 'aUser' in the model, so that it will set in the Session. This user came from DB so it has all the required data fro USER
                 model.addAttribute("user",aUser);
-                return "user/index";
+                return "redirect:/user/home";
             } else {
                 model.addAttribute("title", "Incorrect username / Password - Please try again");
 
@@ -92,6 +100,12 @@ public class UserContorller {
 
     @RequestMapping(value = "home",method = RequestMethod.GET)
     public String userHomePage(@SessionAttribute("user") User currentUserInSession, Model model){
+
+        int numberOfEventsForThisUser  = eventDao.findByUser_Id(currentUserInSession.getId()).size();
+        int numberOfWishesForThisUser = giftDao.findByUser_Id(currentUserInSession.getId()).size();
+
+        model.addAttribute("numberOfWishesForThisUser",numberOfWishesForThisUser);
+        model.addAttribute("numberOfEventsForThisUser",numberOfEventsForThisUser);
         model.addAttribute("user",currentUserInSession);
         return "user/index";
     }

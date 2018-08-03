@@ -12,27 +12,27 @@
         <br>
 
         <div class="col-sm-12">
-            <div class="well">
+            <div class="well" style="background-color: lightblue">
                 <label>Occasion</label>
                 <p th:text="${gift.occasion}">Some text..</p>
 
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <div class="well">
+                    <div class="well" style="background-color: yellow">
                         <label>Price</label>
                         <p th:text="${ '$ ' + gift.price}"></p>
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <div class="well">
+                    <div class="well" style="background-color: lightgreen">
                         <label>Total contribution received </label> <button class="btn btn-info" th:onclick="@{'createBarChart(' + ${giftId} +')' }" data-toggle="tooltip" id="BtnPieChart"><i class="fa fa-pie-chart" style="font-size:18px;color:red"></i> </button>
                         <p th:text="${ '$ ' + totalContributionAmount}"></p>
 
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <div class="well">
+                    <div class="well" style="background-color: pink">
                         <label>Target Date</label>
                         <p th:text="${gift.date}"></p>
                     </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="well">
+                    <div class="well" style="background-color: orange">
                         <label th:text="${contributedby}"></label>
                         <ul>
                             <li th:each="contributor : ${usersContributionsByGiftIdList}" th:text="${contributor.name + ' : ' + contributor.email + ' : $ ' + contributor.totalamount}">
@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="well">
+                    <div class="well" style="background-color: violet">
                         <label th:text="${associatedEventsTitle}">Associated Event(s)</label>
                         <ul>
                             <li th:each="event : ${events}" th:text="${event.title + ' : ' + event.id }"></li>

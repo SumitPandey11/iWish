@@ -68,7 +68,16 @@
         </div>
         <div class="col-sm-2 sidenav">
             <div class="well">
-                <p>Sumit Pandey</p>
+                <p th:text="${user?.name}">User Name</p>
+            </div>
+            <div class="well">
+                <label th:text="${numberOfWishesForThisUser}" class="badge"></label>
+                <p>wishe(s) in your wish list</p>
+
+            </div>
+            <div class="well">
+                <label th:text="${numberOfEventsForThisUser}" class="badge label-success"></label>
+                <p> Event(s) in your event list</p>
             </div>
             <div class="well">
                 <p>LC101 Launchcode (2018)</p>
