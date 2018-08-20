@@ -19,7 +19,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <div class="well" style="background-color: yellow">
+                    <div class="well" style="background-color: lightgreen">
                         <label>Price</label>
                         <p th:text="${ '$ ' + gift.price}"></p>
                     </div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <div class="well" style="background-color: pink">
+                    <div class="well" style="background-color: lightgreen">
                         <label>Target Date</label>
                         <p th:text="${gift.date}"></p>
                     </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="well" style="background-color: orange">
+                    <div class="well" style="background-color: lightblue">
                         <label th:text="${contributedby}"></label>
                         <ul>
                             <li th:each="contributor : ${usersContributionsByGiftIdList}" th:text="${contributor.name + ' : ' + contributor.email + ' : $ ' + contributor.totalamount}">
@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="well" style="background-color: violet">
+                    <div class="well" style="background-color: lightblue">
                         <label th:text="${associatedEventsTitle}">Associated Event(s)</label>
                         <ul>
                             <li th:each="event : ${events}" th:text="${event.title + ' : ' + event.id }"></li>
